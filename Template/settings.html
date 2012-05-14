@@ -1,0 +1,84 @@
+{:include(header)}
+<h2>个人设置</h2>
+<script type="text/javascript">
+$(function(){
+	var $c=$('.options table');
+	$c.attr('cellspacing',0);
+	$c=$c.find('tr');
+	$c.hover(function(){
+		$(this).find('td').css({background:'#F7F7F7'});
+	},function(){
+		$(this).find('td').css({background:'none'});	
+	});
+	$c=$c.find('td:first');
+	$c.css({width:"20%",textAlign:"right"});
+	$c.each(function(){
+		$(this).html($(this).html()+'：');
+	});
+	$('.options input').each(function(){
+		var type=$(this).attr('type');
+		if(type=='text'||type=="password"){
+			$(this).attr('size',30);
+		}else if(type=='radio'){
+			$(this).css({marginLeft:'20px',marginRight:'5px'});
+		}
+	});
+});
+</script>
+<div class="segTitle">偏好选项<button>保存</button></div>
+<div class="options">
+	<table>
+		<tr>
+			<td>登录后转向</td>
+			<td>
+				<input type="radio" id="logGoHome" name="logGo" checked/><label for="logGoHome">首页</label>
+				<input type="radio" id="logGoDiscus" name="logGo"/><label for="logGoDiscus">课程互动</label>
+				<input type="radio" id="logGoHomework" name="logGo"/><label for="logGoHomework">我的作业</label>
+				<input type="radio" id="logGoMessage" name="logGo"/><label for="logGoMessage">站内信息</label>			
+			</td>
+		</tr>
+		<tr>
+			<td>默认选择课程</td>
+			<td>
+				<select>
+					<option>全部</option>
+				</select>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="segTitle">个人资料<button>保存</button></div>
+<div class="options">
+	<table>
+		<tr>
+			<td>姓名</td>
+			<td><input type="text"/></td>
+		</tr>
+		<tr>
+			<td>QQ</td>
+			<td><input type="text"/></td>
+		</tr>
+		<tr>
+			<td>电话联系方式</td>
+			<td><input type="text"/></td>
+		</tr>
+	</table>
+</div>
+<div class="segTitle">登录信息<button>保存</button></div>
+<div class="options">
+	<table>
+		<tr>
+			<td>新密码</td>
+			<td><input type="password"/></td>
+		</tr>
+		<tr>
+			<td>重复密码</td>
+			<td><input type="password"/></td>
+		</tr>
+		<tr>
+			<td>老密码</td>
+			<td><input type="password"/></td>
+		</tr>
+	</table>
+</div>
+{:include(footer)}

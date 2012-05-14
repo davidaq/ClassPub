@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<meta charset="UTF-8"/>
+<head>
+<title>ClassPub</title>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+<script type="text/javascript" src="jq.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('button').css({opacity:0.8});
+	$('button').hover(function(){
+		$(this).css({opacity:1});
+	},function(){
+		$(this).stop(true,false);
+		$(this).animate({'opacity':0.8},300);
+		$(this).css({backgroundPositionY:'0px',paddingTop:'0px'});
+	});
+	$('button').mousedown(function(){
+		$(this).css({backgroundPositionY:'1px',paddingTop:'1px'});
+	});
+	$('button').mouseup(function(){
+		$(this).css({backgroundPositionY:'0px',paddingTop:'0px'});
+	});
+	
+});
+</script>
+</head>
+<body>
+
+<center>
+<div class="wrap">
+<div class="header tr">
+	<div class="navi tr">
+	<?php
+		function setHeaderTab($act){
+			return APP_ACTION==$act?' sel':'';
+		}
+	?>
+		<span class="item{:setHeaderTab('index')}">
+			<a href="{:BASE_PATH}" title="看看在这里都能做些啥">
+				<strong>主页</strong>
+				<span>从这里开始</span>
+			</a>
+		</span>
+		<span class="item{:setHeaderTab('discus')}">
+			<a href="{:BASE_PATH}?a=discus" title="讨论问题、发布资源、布置作业">
+				<strong>课程互动</strong>
+				<span>与同学、老师交流</span>
+			</a>
+		</span>
+		<!--
+		<span class="item{:setHeaderTab('homework')}">
+			<a href="{:BASE_PATH}?a=homework" title="管理我的作业">
+				<strong>我的作业</strong>
+				<span>共 0 项未交作业</span>
+			</a>
+		</span>
+		-->
+		<span class="item{:setHeaderTab('message')}">
+			<a href="{:BASE_PATH}?a=message" title="查看其用户发来的私密消息">
+				<strong>站内信息</strong>
+				<span>共 0 条未读消息</span>
+			</a>
+		</span>
+		<span class="item{:setHeaderTab('settings')}">
+			<a href="{:BASE_PATH}?a=settings" title="修改密码、调整选项">
+				<strong>个人设置</strong>
+				<span>更改帐号选项</span>
+			</a>
+		</span>
+		<span class="item{:setHeaderTab('feedback')}">
+			<a href="{:BASE_PATH}?a=feedback" title="发现BUG神马的给管理员说一声吧">
+				<strong>反馈</strong>
+				<span>给管理员留个言</span>
+			</a>
+		</span>
+	</div>
+	<div class="searchBar">
+		<script type="text/javascript">
+			$(function(){
+				$('#searchButton').hover(function(){
+					$(this).css({backgroundPositionX:'-401px'});
+				},function(){
+					$(this).css({backgroundPositionX:'-358px'});					
+				});
+			});
+			var searchFoucsed=false;
+			function searchFocus(item){
+				if(!searchFoucsed){
+					item.select();
+					searchFoucsed=true;
+				}
+			}
+			function searchBlur(item){
+				searchFoucsed=false;
+				if($(item).val()=='')
+					$(item).val('搜索关键词');
+			}
+		</script>
+		<form action="" method="get">
+			<input type="text" name="keyword" value="搜索关键词" onmouseup="searchFocus(this)" onblur="searchBlur(this)" style="width:150px"/><button id="searchButton"></button>
+		</form>
+	</div>
+</div>
+
+
+<div class="body tr"><div class="ctPadding">
+	{:include(leftbar)}
+	<div class="main">

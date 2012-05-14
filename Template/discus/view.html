@@ -1,0 +1,63 @@
+{:include(header)}
+<script type="text/javascript">
+$(function(){
+	var names=['楼主','沙发'];
+	$('.discusThread .content').each(function(i){
+		var text=(names[i])?names[i]:(i+1)+'楼';
+		$(this).append('<div class="pos">'+text+'</div>');
+	});
+});
+</script>
+<h3>查看主题</h3>
+{:include(discus/viewpagebar)}
+<div class="discusThread">
+	<div class="headBorder"></div>
+	<div class="content">
+		<strong>测试用户 <span>发表于2012-05-12</span></strong>
+		<p>
+			内容。。。。<br/>
+			内容。。。。内容。。。。内容。。。。内容。。。。<br/>内容。。。。内容。。。。内容。。。。内容。。。。<br/>
+			内容。。。。内容。。。。内容。。。。<br/>内容。。。。<br/>
+		</p>
+		<div class="attach">
+		</div>
+	</div>
+	<div class="footBorder"></div>
+</div>
+
+<div class="discusThread">
+	<div class="headBorder"></div>
+	<div class="content">
+		<strong>测试用户</strong>
+		<p>
+			内容。。。。<br/>
+			内容。。。。内容。。。。内容。。。。内容。。。。<br/>内容。。。。内容。。。。内容。。。。内容。。。。<br/>
+			内容。。。。内容。。。。内容。。。。<br/>内容。。。。<br/>
+		</p>
+		<div class="attach">
+		</div>
+	</div>
+	<div class="footBorder"></div>
+</div>
+
+<div class="discusThread">
+	<div class="headBorder"></div>
+	<div class="content">
+		<strong>测试用户</strong>
+		<p>
+			内容。。。。<br/>
+			内容。。。。内容。。。。内容。。。。内容。。。。<br/>内容。。。。内容。。。。内容。。。。内容。。。。<br/>
+			内容。。。。内容。。。。内容。。。。<br/>内容。。。。<br/>
+		</p>
+		<div class="attach">
+		</div>
+	</div>
+	<div class="footBorder"></div>
+</div>
+{:include(discus/viewpagebar)}
+
+<div class="segTitle">回复</div>
+<textarea style="width:818px;height:90px;border:1px solid #ADF;border-top:0;"></textarea>
+<input type="submit" value="回复" style="padding:5px 10px;"/>
+
+{:include(footer)}

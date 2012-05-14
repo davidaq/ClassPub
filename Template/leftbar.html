@@ -1,0 +1,67 @@
+<script type="text/javascript">
+$(function(){
+	var $leftBarMenu=$('.leftBarItemMenu');
+	var $leftBarItems=$('.leftBar .item');
+	$leftBarMenu.mouseleave(function(){
+		$(this).hide();
+	});
+	var mxx,myy;
+	$leftBarItems.mousemove(function(e){
+		mxx=e.pageX;
+		myy=e.pageY;
+	
+	}); 
+	$leftBarItems.bind('contextmenu',function(){
+		$leftBarMenu.css({left:mxx-10+'px',top:myy-10+'px'});
+		$leftBarMenu.show();
+		return false;
+	});
+	
+});
+</script>
+<div class="leftBar">
+	<div class="userInfo tr">
+		<label>测试用户</label>
+		<a href="">退出</a>
+	</div>
+	<strong>我学的课</strong>
+	<script type="text/javascript">
+	$(function(){
+		$('.body .leftBar .list .item a').hover(function(){
+			$(this).stop(true,false);
+			$(this).animate({paddingLeft:7},300);
+		},function(){
+			$(this).stop(true,false);
+			$(this).animate({paddingLeft:0},300);			
+		});
+	});
+	</script>
+	<div class="list" id="leftBarList">
+		<div class="leftBarItem item sel">
+			<a href="">数据库</a>
+		</div>
+		<div class="leftBarItem item">
+			<a href="">操作系统系统</a>
+		</div>
+	</div>
+	<div class="foot"></div>
+	<br/>
+	<strong>我教的课</strong>
+	<div class="list" id="leftBarList">
+		<div class="leftBarItem item">
+			<a href="">数据库</a>
+		</div>
+		<div class="leftBarItem item">
+			<a href="">操作系统系统</a>
+		</div>
+	</div>
+	<div class="foot"></div>
+	
+	<p style="padding:20px 0;padding-right:8px;font-size:10px;color:#777">
+		试试用右键点上面的列表！
+	</p>
+</div>
+<div class="leftBarItemMenu">
+	<a href="">删除</a>
+	<a href="">提前</a>
+</div>

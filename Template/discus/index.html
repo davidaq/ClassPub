@@ -1,0 +1,71 @@
+{:include(header)}
+<h2>课程互动</h2>
+<div class="segTitle">
+	我的全部课程 <span>- 帖子列表</span>
+</div>
+{:include(discus/pagebar)}
+
+<div class="discus">
+	<div class="item tr">
+		<span class="replyNum">
+			150
+		</span>
+		<a href="{:BASE_PATH}?a=discus&m=view" class="title">
+			<span>讨论</span> o(∩_∩)o...哈哈
+		</a>
+		<span class="author">
+			<div>tester1</div>
+			<div>tester2</div>
+		</span>
+	</div>
+	<div class="item alter tr">
+		<span class="replyNum">
+			120
+		</span>
+		<a href="" class="title">
+			haha
+		</a>
+		<span class="author">
+			<div>tester1</div>
+			<div>tester2</div>
+		</span>
+	</div>
+	<div class="item tr">
+		<span class="replyNum">
+			120
+		</span>
+		<a href="" class="title">
+			haha
+		</a>
+		<span class="author">
+			<div>tester1</div>
+		</span>
+	</div>
+</div>
+{:include(discus/pagebar)}
+<a name="newTopic"/>
+<div class="segTitle">
+	发表新主题 <span>- 发起新话题、分享资源、发布作业</span>
+	<button>发表</button>
+</div>
+<form class="genForm">
+	<p>
+		<input type="radio" id="typeDiscus" name="type" checked/><label for="typeDiscus">讨论</label>
+		<input type="radio" id="typeHomework" name="type" disabled/><label for="typeHomework">作业</label>
+		<input type="radio" id="typeResource" name="type"/><label for="typeResource">资源</label>
+	</p>
+	<p>
+		<label>附件</label>
+		<input type="file"/>
+		<input type="file"/>
+	</p>
+	<p>
+		<label for="topicText">话题主题</label> <input id="topicText" type="text" value="" size="30"/>
+	</p>
+	<p>
+		<textarea style="width:550px;height:100px;padding:5px;overflow-y:scroll"></textarea>
+	</p>
+	<input type="submit" value="发表" style=";width:100px;height:30px;background:#EEF;margin-left:20px"/>
+</form>
+
+{:include(footer)}
