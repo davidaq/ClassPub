@@ -1,32 +1,76 @@
-<script type="text/javascript">
-$(function(){
-	var $leftBarMenu=$('.leftBarItemMenu');
-	var $leftBarItems=$('.leftBar .item');
-	$leftBarMenu.mouseleave(function(){
-		$(this).hide();
-	});
-	var mxx,myy;
-	$leftBarItems.mousemove(function(e){
-		mxx=e.pageX;
-		myy=e.pageY;
-	
-	}); 
-	$leftBarItems.bind('contextmenu',function(){
-		$leftBarMenu.css({left:mxx-10+'px',top:myy-10+'px'});
-		$leftBarMenu.show();
-		return false;
-	});
-	
-});
-</script>
-<div class="leftBar">
-	<div class="userInfo tr">
-		<label>测试用户</label>
-		<a href="">退出</a>
-	</div>
-	<strong>我学的课</strong>
+{:if(U::uid()==0)}
+	<style type="text/css">
+		.leftBar .input{
+			display:block;
+			border:1px solid #CCE;
+			position:relative;
+			margin-top:2px;
+		}
+		.leftBar .input input{
+			border:0;
+			padding:5px 3px;
+			width:140px;
+		}
+		.leftBar .input label{
+			position:absolute;
+			top:3px;
+			left:5px;
+			font-size:13px;
+			color:#777;
+		}
+	</style>
 	<script type="text/javascript">
 	$(function(){
+		$('.leftBar .input input').focus(function(){
+			$(this).next('label').hide();
+		});
+		$('.leftBar .input input').blur(function(){
+			if($(this).val()=='')
+			$(this).next('label').show();
+		});
+	});
+	function login(){
+		$.post('{:BASE_PATH}?a=login&m=login',{'username':$('#username').val(),'password':$('#password').val()},function(data){
+			if(data=='badusername')
+				alert('用户不存在');
+			else if(data=='badpassword')
+				alert('密码错误');
+			else
+				document.location.reload();
+		});
+	}
+	</script>
+	<div class="leftBar">
+		<div class="userInfo tr">
+			<label>您还没有登录</label>
+		</div>
+		<span class="input"><input type="text" id="username"/><label for="username">用户名（邮箱）</label></span>
+		<span class="input"><input type="password" id="password"/><label for="password">密码</label></span>
+		<div style="position:relative;height:50px"><button onclick="login()">登录</button></div>
+
+		<span class="input"><input type="text" id="email"/><label for="username">邮箱</label></span>
+		<div style="position:relative"><button>快速注册</button></div>
+	</div>
+{:else}
+	<script type="text/javascript">
+	$(function(){
+		var $leftBarMenu=$('.leftBarItemMenu');
+		var $leftBarItems=$('.leftBar .item');
+		$leftBarMenu.mouseleave(function(){
+			$(this).hide();
+		});
+		var mxx,myy;
+		$leftBarItems.mousemove(function(e){
+			mxx=e.pageX;
+			myy=e.pageY;
+	
+		}); 
+		$leftBarItems.bind('contextmenu',function(){
+			$leftBarMenu.css({left:mxx-10+'px',top:myy-10+'px'});
+			$leftBarMenu.show();
+			return false;
+		});
+	
 		$('.body .leftBar .list .item a').hover(function(){
 			$(this).stop(true,false);
 			$(this).animate({paddingLeft:7},300);
@@ -36,32 +80,39 @@ $(function(){
 		});
 	});
 	</script>
-	<div class="list" id="leftBarList">
-		<div class="leftBarItem item sel">
-			<a href="">数据库</a>
+	<div class="leftBar">
+		<div class="userInfo tr">
+			<label>{:U::user()}</label>
+			<a href="{:BASE_PATH}?a=login&m=logout">退出</a>
 		</div>
-		<div class="leftBarItem item">
-			<a href="">操作系统系统</a>
+		<strong>我学的课</strong>
+		<div class="list" id="leftBarList">
+			<div class="leftBarItem item sel">
+				<a href="">数据库</a>
+			</div>
+			<div class="leftBarItem item">
+				<a href="">操作系统系统</a>
+			</div>
 		</div>
-	</div>
-	<div class="foot"></div>
-	<br/>
-	<strong>我教的课</strong>
-	<div class="list" id="leftBarList">
-		<div class="leftBarItem item">
-			<a href="">数据库</a>
+		<div class="foot"></div>
+		<br/>
+		<strong>我教的课</strong>
+		<div class="list" id="leftBarList">
+			<div class="leftBarItem item">
+				<a href="">数据库</a>
+			</div>
+			<div class="leftBarItem item">
+				<a href="">操作系统系统</a>
+			</div>
 		</div>
-		<div class="leftBarItem item">
-			<a href="">操作系统系统</a>
-		</div>
-	</div>
-	<div class="foot"></div>
+		<div class="foot"></div>
 	
-	<p style="padding:20px 0;padding-right:8px;font-size:10px;color:#777">
-		试试用右键点上面的列表！
-	</p>
-</div>
-<div class="leftBarItemMenu">
-	<a href="">删除</a>
-	<a href="">提前</a>
-</div>
+		<p style="padding:20px 0;padding-right:8px;font-size:10px;color:#777">
+			试试用右键点上面的列表！
+		</p>
+	</div>
+	<div class="leftBarItemMenu">
+		<a href="">删除</a>
+		<a href="">提前</a>
+	</div>
+{:end}

@@ -9,5 +9,10 @@ foreach($dir as $f){
 		require_once('inc/'.$f);
 }
 
+if(U::uid()==0){
+	if(isset($_GET['a'])&&$_GET['a']!='login')
+		$_GET['a']='index';
+}
+
 lib_exec();
 ?>
