@@ -5,3 +5,22 @@
 $email
 SELECT `uid`,`name`,`password` FROM `{$TP}user`
 	WHERE `email`=$email
+	
+%setPassword		//设置密码
+$uid
+$oldpassword
+$newpassword
+
+%createUser		//创建用户
+$email
+
+%setOptions		//偏好设置
+$uid
+$defaultPage
+$defaultClass
+
+%setDetails		//个人资料设置
+$uid
+$name
+$qq
+$phone

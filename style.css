@@ -231,6 +231,8 @@ a{
 	background:url(images/pager_arrow_right.gif) no-repeat;
 	color:#FFF;
 	text-shadow:#000 -1px 0px 2px;
+}
+.body .main .segTitle button{
 	position:absolute;
 	right:3px;
 	top:2px;

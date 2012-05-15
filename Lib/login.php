@@ -1,4 +1,5 @@
 <?php
+isset($_CONFIG)||die();
 function login(&$V){
 	if(isset($_POST['username'])&&isset($_POST['password'])){
 		$m=new Model('user');
