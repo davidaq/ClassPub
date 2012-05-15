@@ -48,24 +48,21 @@
 	发表新主题 <span>- 发起新话题、分享资源、发布作业</span>
 	<button>发表</button>
 </div>
-<form class="genForm">
+
+<form class="genForm" action="method" target="{:BASE_PATH}?a=discus&m=post">
 	<p>
-		<input type="radio" id="typeDiscus" name="type" checked/><label for="typeDiscus">讨论</label>
-		<input type="radio" id="typeHomework" name="type" disabled/><label for="typeHomework">作业</label>
-		<input type="radio" id="typeResource" name="type"/><label for="typeResource">资源</label>
+		<input type="radio" id="typeDiscus" name="type" value="normal" checked onclick="$('#commitolbox').hide();"/><label for="typeDiscus">普通</label>
+		<input type="radio" id="typeHomework" name="type" value="homework" onclick="$('#commitolbox').show()"/><label for="typeHomework">作业</label>
+		<span id="commitolbox" style="display:none">（<label for="commitol">需要在线提交</label><input id="commitol" name="commitol" type="checkbox"/>）</span>
 	</p>
 	<p>
-		<label>附件</label>
-		<input type="file"/>
-		<input type="file"/>
+		<label for="topicText">话题主题</label> <input name="topic" id="topicText" type="text" value="" size="30"/>
 	</p>
 	<p>
-		<label for="topicText">话题主题</label> <input id="topicText" type="text" value="" size="30"/>
-	</p>
-	<p>
-		<textarea style="width:550px;height:100px;padding:5px;overflow-y:scroll"></textarea>
+		<textarea name="text" style="width:550px;height:100px;padding:5px;overflow-y:scroll"></textarea>
 	</p>
 	<input type="submit" value="发表" style=";width:100px;height:30px;background:#EEF;margin-left:20px"/>
 </form>
+{:include(discus/attachment)}
 
 {:include(footer)}

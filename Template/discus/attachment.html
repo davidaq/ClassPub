@@ -1,0 +1,104 @@
+<script type="text/javascript">
+var sizeName=['B','KB','MB','GB'];
+function parseSize(size){
+	if(size==0)
+		return '未知大小';
+	var sizeN=0;
+	while(size>1024){
+		size/=1024;
+		sizeN++;
+	}
+	size=Math.floor(size*100)/100+sizeName[sizeN];
+	return size;
+}
+function refreshAttList(){
+	$.getJSON('{:BASE_PATH}?a=attachment&m=view',{t:{:time()}},function(data){
+		$c=$('#attachmentField');
+		$c.html('');
+		for(k in data){
+			$c.append('<span id="'+data[k]['id']+'"><a href="'+data[k]['url']+'" target="_blank">'+data[k]['name']+'</a> '+parseSize(data[k]['size'])+' <a href="javascript:void(0);" onclick="removeAtt(this)">删除</a></span>');
+		}
+	});
+}
+$(refreshAttList);
+var upid=0;
+function addAtt(){
+	if(!$('#attUpload').attr('checked')&&!$('#attLinkTo').attr('checked')){
+		alert('请指定要添加的附件！');
+		return false;
+	}
+	var form=$('#attachmentForm')[0];
+	var cpid=upid;
+	var fid='uploadFrm'+cpid;
+	upid++;
+	$('#attachmentFrame').append('<iframe src="about:blank" name="'+fid+'" id="'+fid+'"></iframe>');
+	form.target=fid;
+	$('#fileField').attr('disabled',!$('#attUpload').attr('checked'));
+	setTimeout(function(){
+		$('#'+fid).load(function(){
+			data=$(this).contents().find('body').html();
+			eval('data='+data);
+			$('#att'+cpid).html('<a href="'+data['url']+'" target="_blank">'+data['name']+'</a> '+parseSize(data['size'])+' <a href="javascript:void(0);" onclick="removeAtt(this)">删除</a>');
+			$('#att'+cpid).attr('id',data['id']);
+			$(this).remove();
+			$('#fileField').attr('disabled',false);
+		});
+		$('#attachmentField').append('<span id="att'+cpid+'">添加中...</span>');
+		form.submit();
+	},100);
+	return false;
+}
+function removeAtt(item){
+	item=$(item).parent();
+	$.post('{:BASE_PATH}?a=attachment&m=rm',{'id':item.attr('id')},function(data){
+	});
+	item.remove();
+}
+</script>
+<style type="text/css">
+#attachmentFrame iframe{
+	width:0;
+	height:0;
+	border:0;
+	background:none;
+}
+#attachmentField{
+	font-size:13px;
+	color:#777;
+	overflow:hidden;
+	zoom:1;
+}
+#attachmentField span{
+	display:block;
+	float:left;
+	padding:5px;
+	margin:3px;
+	border:1px solid #CDE;
+}
+#attachmentField a{
+	color:#337;
+}
+#attachmentForm{
+	border:1px solid #CCC;
+	background:#F0F0F0;
+	float:left;
+	padding:5px;
+}
+</style>
+<div class="genForm">
+	<p>
+		<label>附件</label><br/>
+	</p>
+	<div id="attachmentField">
+	</div>
+	<form target="" enctype="multipart/form-data" onsubmit="return addAtt();" action="{:BASE_PATH}?a=attachment&m=upload" id="attachmentForm" method="post">
+		<p style="line-height:35px;">
+			<input type="radio" name="type" value="upload" id="attUpload"/><label for="attUpload">上传附件</label> <input type="file" name="upload" onchange="$('#attUpload').attr('checked',true);$('#attLinkTo').attr('checked',false);" id="fileField"/><br/>
+			<input type="radio" name="type" value="linkto" id="attLinkTo"/><label for="attLinkTo">链接地址</label> <input type="text" name="url" onfocus="$('#attLinkTo').attr('checked',true);$('#attUpload').attr('checked',false);"/><br/>
+			<input type="submit" value="添加"/>
+			<input type="hidden" name="MAX_FILE_SIZE" value="4096000">
+		</p>
+	</form>
+</div>
+	
+<div id="attachmentFrame" style="height:1px;overflow:hidden"></div>
