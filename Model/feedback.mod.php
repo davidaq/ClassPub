@@ -5,6 +5,6 @@
 $uid
 $text
 INSERT  INTO `{$TP}feedback`
-('uid','text')
+(`uid`,`text`)
 VALUES ($uid,$text)
 
