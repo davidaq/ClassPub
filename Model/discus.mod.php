@@ -18,7 +18,8 @@ SELECT `did`,`uid`,`cid`,`time`,`type`
 	LIMIT ($page-1)*$countPerPage,$countPerPage
 
 %replyCount		//获取多个主题回复个数
-$dids				//一个数组，用IN
+$dids	
+SELECT 	  		 //一个数组，用IN
 
 %newTopic			//新主题
 $uid
