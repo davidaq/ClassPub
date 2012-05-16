@@ -4,7 +4,7 @@
 %getByEmail		//根据用户邮箱获得用户基本信息
 $email
 SELECT `uid`,`name`,`password` FROM `{$TP}user`
-	WHERE `email`=$email
+	WHERE `email`=$email;
 	
 %setPassword		//设置密码
 $uid
