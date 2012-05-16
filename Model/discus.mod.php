@@ -3,11 +3,19 @@
 
 %topicCount		//主题个数
 $cid
+SELECT COUNT(*)
+	FROM `{$TP}discus`
+	WHERE `cid`=$cid
+
 
 %listTopics		//列出主题
 $cid
 $page						//第几页
 $countPerPage			//每页显示个数
+SELECT `did`,`uid`,`cid`,`time`,`type`
+	FROM `{$TP}discus`
+	WHERE `cid`=$cid AND `reply`=0 
+	LIMIT ($page-1)*$countPerPage,$countPerPage
 
 %replyCount		//获取多个主题回复个数
 $dids				//一个数组，用IN
