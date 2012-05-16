@@ -4,7 +4,7 @@
 %feedback		//用户反馈
 $uid
 $text
-INSERT  INTO `{$TP}feedback`
+INSERT   INTO `{$TP}feedback`
 (`uid`,`text`)
 VALUES ($uid,$text)
 
