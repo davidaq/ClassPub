@@ -10,14 +10,23 @@ SELECT `uid`,`name`,`password` FROM `{$TP}user`
 $uid
 $oldpassword
 $newpassword
+UPDATE `{$TP}user`
+SET `password`=$newpassword
+WHERE `uid`=$uid AND `password`=$oldpassword
 
 %createUser		//创建用户
 $email
+$password
+INSERT  INTO user(`email`,`password`)
+VALUES ($email,$password)
 
 %setOptions		//偏好设置
 $uid
 $defaultPage
 $defaultClass
+UPDATE `{$TP}profile`
+SET `defaultclass`=$defaultClass
+WHERE `uid`=$uid AND `password`=$oldpassword
 
 %setDetails		//个人资料设置
 $uid
