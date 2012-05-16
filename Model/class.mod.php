@@ -3,16 +3,16 @@
 
 %getLearn		//获取用户所有 学 的课程
 $uid 
-SELECT name
+SELECT cid,name
 	FROM `{$TP}class`
 	WHERE `cid`IN
 		(SELECT cid
-			FROM`{$TP}S_C`
+			FROM`{$TP}s_c`
 			WHERE `uid`=$uid)
 
 %getTeach		//获取用户所有 教 的课程
 $uid
-SELECT name
+SELECT cid,name
 FROM `{$TP}class`
 WHERE `teacher`=$uid
 
@@ -28,7 +28,7 @@ INSERT  INTO class
 $uid
 $cid
 DELETE  
-FROM `{$TP}S_C`
+FROM `{$TP}s_c`
 	WHERE `cid`=$cid
 		
 DELETE
@@ -38,7 +38,7 @@ DELETE
 %joinClass		//加入课堂学习
 $uid
 $cid
-INSERT  INTO S_C
+INSERT  INTO s_c
 	(`cid`,`uid`)
 	VALUES ($cid,$uid)
 	
@@ -46,5 +46,5 @@ INSERT  INTO S_C
 $uid
 $cid
 DELETE 
-FROM `{$TP}S_C`
+FROM `{$TP}s_c`
 WHERE `cid`=$cid AND `uid`=$uid

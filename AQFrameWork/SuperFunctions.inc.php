@@ -47,7 +47,8 @@ function lib_exec($action=false,$method=false){
 			if($__resvm!==false)
 			{
 				$__resvm=preg_replace('/[^a-zA-Z0-9]/','',$__resvm);
-				eval($__resvm.'($V);');
+				if(function_exists($__resvm))
+					eval($__resvm.'($V);');
 			}else if(function_exists('index')){
 				eval('index($V);');
 			}

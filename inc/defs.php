@@ -7,6 +7,6 @@ function dodef($g,$d=''){
 	}
 }
 dodef('page',1);
-dodef('cls',0);
+dodef('cid',0);
 dodef('keyword','');
 ?>

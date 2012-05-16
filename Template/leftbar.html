@@ -73,7 +73,8 @@
 {:else}
 	<?php
 		$m=new Model('class');
-		$r=$m->call('getLearn',array('uid'=>U::uid()));
+		$classLearn=$m->getLearn(array('uid'=>U::uid()));
+		$classTeach=$m->getTeach(array('uid'=>U::uid()));
 	?>
 	<script type="text/javascript">
 	$(function(){
@@ -110,23 +111,21 @@
 		</div>
 		<strong>我学的课</strong>
 		<div class="list" id="leftBarList">
-			<div class="leftBarItem item">
-				<a href="">数据库</a>
-			</div>
-			<div class="leftBarItem item">
-				<a href="">操作系统系统</a>
-			</div>
+			{:loop($classLearn as $v)}
+				<div class="leftBarItem item{:$v['cid']==CID?' sel':''}">
+					<a href="{:BASE_PATH}?a=discus&m=index&cid={:$v['cid']}">{:$v['name']}</a>
+				</div>
+			{:end}
 		</div>
 		<div class="foot"></div>
 		<br/>
 		<strong>我教的课</strong>
 		<div class="list" id="leftBarList">
-			<div class="leftBarItem item">
-				<a href="">数据库</a>
-			</div>
-			<div class="leftBarItem item">
-				<a href="">操作系统系统</a>
-			</div>
+			{:loop($classTeach as $v)}
+				<div class="leftBarItem item{:$v['cid']==CID?' sel':''}">
+					<a href="{:BASE_PATH}?a=discus&m=index&cid={:$v['cid']}">{:$v['name']}</a>
+				</div>
+			{:end}
 		</div>
 		<div class="foot"></div>
 	
