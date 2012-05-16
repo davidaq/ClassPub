@@ -1,10 +1,15 @@
 <?php die();?>
 用户模块，用于对用户信息增删改查
 
+%getSettings		//获取用户所有设置
+$uid
+SELECT * FROM `{$TP}user`,`{$TP}profile`
+	WHERE `{$TP}user`.`uid`=$uid AND `{$TP}profile`.`uid`=$uid
+
 %getByEmail		//根据用户邮箱获得用户基本信息
 $email
 SELECT `uid`,`name`,`password` FROM `{$TP}user`
-	WHERE `email`=$email
+	WHERE `email`=$email;
 	
 %setPassword		//设置密码
 $uid
