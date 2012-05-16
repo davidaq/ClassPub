@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2012 年 05 月 16 日 09:27
+-- 生成日期: 2012 年 05 月 16 日 10:29
 -- 服务器版本: 5.5.16
 -- PHP 版本: 5.3.8
 
@@ -80,12 +80,12 @@ CREATE TABLE IF NOT EXISTS `discus` (
 --
 
 CREATE TABLE IF NOT EXISTS `feedback` (
-  `fid` int(11) NOT NULL,
+  `fid` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
   `text` mediumtext NOT NULL,
   PRIMARY KEY (`fid`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
