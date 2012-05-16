@@ -17,19 +17,26 @@ WHERE `uid`=$uid AND `password`=$oldpassword
 %createUser		//创建用户
 $email
 $password
-INSERT  INTO user(`email`,`password`)
-VALUES ($email,$password)
+INSERT  INTO user
+	(`email`,`password`)
+	VALUES ($email,$password)
 
 %setOptions		//偏好设置
 $uid
 $defaultPage
 $defaultClass
 UPDATE `{$TP}profile`
-SET `defaultclass`=$defaultClass
-WHERE `uid`=$uid AND `password`=$oldpassword
+	SET `defaultclass`=$defaultClass,`defaultpage`=$defaultPage
+	WHERE `uid`=$uid 
 
 %setDetails		//个人资料设置
 $uid
 $name
 $qq
 $phone
+UPDATE `{$TP}profile`
+	SET `qq`=$qq,`phone`=$phone
+	WHERE `uid`=$uid ;
+	UPDATE `{$TP}user`
+	SET `name`=$name
+	WHERE `uid`=$uid ;
