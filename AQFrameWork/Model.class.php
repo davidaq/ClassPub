@@ -108,9 +108,9 @@ class Model{
 	}
 	public function __call($method,$arg){
 		if(isset($arg[0]))
-			$this->call($method,$arg[0]);
+			return $this->call($method,$arg[0]);
 		else
-			$this->call($method);
+			return $this->call($method);
 	}
 	private function transf($val){		//将变量转换为Sql表达式
 		global $_DB;
