@@ -1,7 +1,9 @@
 <?php
 
-function index(){
-
+function index(&$V){
+	$m=new Model('user');
+	$r=$m->getSettings(array('uid'=>U::uid()));
+	$V->set('cfg',$r[0]);
 }
 
 function setPref(&$V){
@@ -25,10 +27,12 @@ function setDetails(&$V){
 		$arg['name']=$_POST['name'];
 		$arg['qq']=$_POST['qq'];
 		$arg['phone']=$_POST['phone'];
+		
 		$m->setDetails($arg);
 
 		$V=new View('notice');
 		$V->set('url',BASE_PATH.'?a=settings');
+		$_SESSION['username']=$_POST['name'];
 		$V->set('message','设置成功');
 	}
 }
@@ -45,9 +49,8 @@ function setPassword(&$V){
 		}else{
 			$m=new Model('user');
 			$arg['uid']=U::uid();
-			$arg['name']=$_POST['name'];
-			$arg['qq']=$_POST['qq'];
-			$arg['phone']=$_POST['phone'];
+			$arg['oldpassword']=md5($_POST['oldpassword']);
+			$arg['newpassword']=md5($_POST['newpassword']);
 			if($m->setPassword($arg)){
 				$V->set('message','密码设置成功');
 			}else{

@@ -32,16 +32,16 @@ $(function(){
 		<tr>
 			<td>登录后转向</td>
 			<td>
-				<input type="radio" id="logGoHome" name="logGo" checked/><label for="logGoHome">首页</label>
-				<input type="radio" id="logGoDiscus" name="logGo"/><label for="logGoDiscus">课程互动</label>
-				<input type="radio" id="logGoMessage" name="logGo"/><label for="logGoMessage">站内信息</label>			
+				<input type="radio" id="logGoHome" name="logGo"{:$cfg['defaultpage']=='index'?'checked':''}/><label for="logGoHome">首页</label>
+				<input type="radio" id="logGoDiscus" name="logGo"{:$cfg['defaultpage']=='discus'?'checked':''}/><label for="logGoDiscus">课程互动</label>
+				<input type="radio" id="logGoMessage" name="logGo"{:$cfg['defaultpage']=='message'?'checked':''}/><label for="logGoMessage">站内信息</label>			
 			</td>
 		</tr>
 		<tr>
 			<td>默认选择课程</td>
 			<td>
 				<select name="class">
-					<option value="0">全部</option>
+					<option value="0" {:$cfg['defaultclass']==0?'selected':''}>全部</option>
 				</select>
 			</td>
 		</tr>
@@ -53,15 +53,15 @@ $(function(){
 	<table>
 		<tr>
 			<td>姓名</td>
-			<td><input name="name" type="text"/></td>
+			<td><input name="name" type="text" value="{:$cfg['name']}"/></td>
 		</tr>
 		<tr>
 			<td>QQ</td>
-			<td><input name="qq" type="text"/></td>
+			<td><input name="qq" type="text" value="{:$cfg['qq']}"/></td>
 		</tr>
 		<tr>
 			<td>电话联系方式</td>
-			<td><input name="phone" type="text"/></td>
+			<td><input name="phone" type="text" value="{:$cfg['phone']}"/></td>
 		</tr>
 	</table>
 </form>
