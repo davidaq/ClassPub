@@ -19,7 +19,8 @@
 			top:5px;
 			left:5px;
 			font-size:13px;
-			color:#777;
+			color:#999;
+			cursor:text;
 		}
 	</style>
 	<script type="text/javascript">
@@ -49,12 +50,17 @@
 		</div>
 		<strong>登录</strong>
 		<div class="list">
-			<span class="input">
-				<input type="text" id="username"/><label for="username">用户名（邮箱）</label>
-			</span>
-			<span class="input">
-				<input type="password" id="password"/><label for="password">密码</label>
-			</span>
+			<form onsubmit="login();return false;">
+				<span class="input">
+					<input type="text" id="username"/><label for="username">用户名（邮箱）</label>
+				</span>
+				<span class="input">
+					<input type="password" id="password"/><label for="password">密码</label>
+				</span>
+				<div class="hidden">
+					<input type="submit" style="width:1px;height:1px;border:0;background=none;padding:0" value=""/>
+				</div>
+			</form>
 			<div style="text-align:center;height:30px;line-height:30px">
 				<button onclick="login()">登录</button>
 			</div>

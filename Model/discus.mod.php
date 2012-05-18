@@ -10,12 +10,13 @@ SELECT COUNT(*)
 
 %listTopics		//列出主题
 $cid
-$page						//第几页
+$start						//第几页,的第一个
 $countPerPage			//每页显示个数
-SELECT `did`,`uid`,`cid`,`time`,`type`
+$type
+SELECT `did`,`uid`,`cid`,`time`,`type`,`title`
 	FROM `{$TP}discus`
-	WHERE `cid`=$cid AND `reply`=0 
-	LIMIT ($page-1)*$countPerPage,$countPerPage
+	WHERE ($cid=0 OR `cid`=$cid) AND `reply`=0 AND `type` IN $type
+	LIMIT $start	,$countPerPage
 
 %replyCount		//获取多个主题回复个数
 $dids	
@@ -26,10 +27,10 @@ $uid
 $cid
 $title
 $text
-$isHomework
+$type
 INSERT INTO `{$TP}discus`
 	(`uid`,`cid`,`title`,`content`,`type`)
-	VALUES($uid,$cid,$title,$text,$isHomework)
+	VALUES($uid,$cid,$title,$text,$type)
 
 %replyTopic		//回复主题
 $uid

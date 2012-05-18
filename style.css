@@ -11,6 +11,24 @@ input,textarea{
 	outline:none;
 	resize:none;
 }
+.hidden{
+	width:1px;
+	height:1px;
+	padding:0;
+	margin:0;
+	overflow:hidden;
+	display:absolute;
+	opacity:0;
+	filter:alpha(opacity=0);
+}
+a{
+	text-decoration:none;
+}
+.tr {
+	overflow:hidden;
+	zoom:1;
+}
+
 .genForm input,.genForm textarea{
 	border:1px solid #ACD;
 	background:#FFF;
@@ -23,14 +41,8 @@ input,textarea{
 .genForm p{
 	padding:10px;
 }
-a{
-	text-decoration:none;
-}.ctPadding{
+.ctPadding{
 	padding:10px;
-}
-.tr {
-	overflow:hidden;
-	zoom:1;
 }
 .wrap{
 	width:1000px;

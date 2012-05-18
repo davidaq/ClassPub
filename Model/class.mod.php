@@ -1,6 +1,11 @@
 <?php die(); ?>
 课程模块，主要操作表：class,s_c
 
+%getName
+$cid
+SELECT `name` FROM `{$TP}class`
+	WHERE `cid`=$cid
+
 %getLearn		//获取用户所有 学 的课程
 $uid 
 SELECT cid,name

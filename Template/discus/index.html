@@ -1,11 +1,26 @@
 {:include(header)}
 <h2>课程互动</h2>
 <div class="segTitle">
-	我的全部课程 <span>- 帖子列表</span>
+	{:$cname} <span>- 帖子列表</span>
 </div>
 {:include(discus/pagebar)}
 
 <div class="discus">
+	{:loop($topicList as $v)}
+		<div class="item tr">
+			<span class="replyNum">
+				150
+			</span>
+			<a href="{:BASE_PATH}?a=discus&m=view" class="title">
+				<span>讨论</span> {:$v['title']}
+			</a>
+			<span class="author">
+				<div>tester1</div>
+				<div>tester2</div>
+			</span>
+		</div>
+	
+	{:end}
 	<div class="item tr">
 		<span class="replyNum">
 			150
@@ -57,9 +72,10 @@
 	<p>
 		<label for="topicText">话题主题</label> <input name="topic" id="topicText" type="text" value="" size="30"/>
 	</p>
-	{:if(CID==0)}
 	<p>
-		<label>课程</label> &nbsp;&nbsp;&nbsp; <select name="cid">
+		<label>课程</label> &nbsp;&nbsp;&nbsp; 
+		{:if(CID==0)}
+		<select name="cid">
 			{:loop($classTeach as $v)}
 				<option value="{:$v['cid']}">{:$v['name']}</option>
 			{:end}
@@ -67,8 +83,10 @@
 				<option value="{:$v['cid']}">{:$v['name']}</option>
 			{:end}
 		</select>
+		{:else}
+		<input type="hidden" name="cid" value="{:CID}">{:$cname}
+		{:end}
 	</p>
-	{:END}
 	<p>
 		<textarea name="text" style="width:550px;height:100px;padding:5px;overflow-y:scroll"></textarea>
 	</p>
