@@ -13,14 +13,25 @@ $cid
 $start						//第几页,的第一个
 $countPerPage			//每页显示个数
 $type
-SELECT `did`,`uid`,`cid`,`time`,`type`,`title`
-	FROM `{$TP}discus`
+SELECT d.`did`,u.`name`,d.`cid`,d.`time`,d.`type`,d.`title`
+	FROM `{$TP}discus` d JOIN `{$TP}user` u
+		ON u.uid=d.uid
 	WHERE ($cid=0 OR `cid`=$cid) AND `reply`=0 AND `type` IN $type
 	LIMIT $start	,$countPerPage
 
 %replyCount		//获取多个主题回复个数
 $dids	
-		 //一个数组，用IN
+SELECT `reply`,COUNT(*) `num`,MAX(did) `last` FROM `{$TP}discus`
+	WHERE `reply` IN $dids
+	GROUP BY `reply`
+
+%authors			//获取多个主题的作者
+$dids
+SELECT d.`did`,u.`name`
+	FROM `{$TP}discus` d JOIN `{$TP}user` u
+		ON d.`uid`=u.`uid`
+	WHERE `did` IN $dids
+
 
 %newTopic			//新主题
 $uid
@@ -35,11 +46,10 @@ INSERT INTO `{$TP}discus`
 %replyTopic		//回复主题
 $uid
 $did
-$cid
 $text
 INSERT INTO `{$TP}discus`
-	(`uid`,`content`,`reply`,`cid`)
-	VALUES($uid,$text,$did,$cid)
+	(`uid`,`content`,`reply`)
+	VALUES($uid,$text,$did)
 
 
 %editThread		//编辑帖子/主题
@@ -57,3 +67,13 @@ DELETE FROM `{$TP}discus`
 	WHERE `uid`=$uid AND `did`=$did;
 DELETE FROM `{$TP}discus`
 	WHERE `reply`=$did;
+	
+%fetchStory		//获取一个楼
+$did
+$start
+$countPerPage
+SELECT d.*,u.`name` username
+	FROM `{$TP}discus` d JOIN `{$TP}user` u
+		ON d.`uid`=u.`uid`
+	WHERE `did`=$did OR `reply`=$did
+	LIMIT $start,$countPerPage

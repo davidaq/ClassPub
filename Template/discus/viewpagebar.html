@@ -1,5 +1,16 @@
 <div class="pageOpt">
-	<p style="left:0">帖子主题</p>
+	<p style="left:0">回复数：{:$replyCount}</p>
 	<p style="right:0"><a href="#reply">回复</a></p>
-	<a href="">1</a><a href="">2</a><strong>3</strong><a href="">4</a><a href="">5</a>...<a href="">7</a>
+	
+	前往
+	{:loop($pager as $v)}
+		{:if($v=='.')}
+			...
+		{:elseif($v==PAGE)}
+			<strong>{:$v}</strong>
+		{:else}
+			<a href="{:BASE_PATH}?a=discus&m=view&cid={:CID}&did={:$did}&page={:$v}">{:$v}</a>
+		{:end}
+	{:end}
+	页
 </div>

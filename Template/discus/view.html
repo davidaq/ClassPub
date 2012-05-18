@@ -3,6 +3,7 @@
 $(function(){
 	var names=['楼主','沙发'];
 	$('.discusThread .content').each(function(i){
+		i+={:$start};
 		var text=(names[i])?names[i]:(i+1)+'楼';
 		$(this).append('<div class="pos">'+text+'</div>');
 	});
@@ -10,54 +11,39 @@ $(function(){
 </script>
 <h3>查看主题</h3>
 {:include(discus/viewpagebar)}
-<div class="discusThread">
-	<div class="headBorder"></div>
-	<div class="content">
-		<strong>测试用户 <span>发表于2012-05-12</span></strong>
-		<p>
-			内容。。。。<br/>
-			内容。。。。内容。。。。内容。。。。内容。。。。<br/>内容。。。。内容。。。。内容。。。。内容。。。。<br/>
-			内容。。。。内容。。。。内容。。。。<br/>内容。。。。<br/>
-		</p>
-		<div class="attach">
-		</div>
-	</div>
-	<div class="footBorder"></div>
-</div>
 
-<div class="discusThread">
-	<div class="headBorder"></div>
-	<div class="content">
-		<strong>测试用户</strong>
-		<p>
-			内容。。。。<br/>
-			内容。。。。内容。。。。内容。。。。内容。。。。<br/>内容。。。。内容。。。。内容。。。。内容。。。。<br/>
-			内容。。。。内容。。。。内容。。。。<br/>内容。。。。<br/>
-		</p>
-		<div class="attach">
+{:loop($threads as $v)}
+	<div class="discusThread">
+		<div class="headBorder"></div>
+		<div class="content">
+			<strong>{:$v['username']} <span>发表于 {:$v['time']}</span></strong>
+			<p>{:nl2br($v['content'])}</p>
+			<div class="attach">
+			</div>
 		</div>
+		<div class="footBorder"></div>
 	</div>
-	<div class="footBorder"></div>
-</div>
+{:end}
 
-<div class="discusThread">
-	<div class="headBorder"></div>
-	<div class="content">
-		<strong>测试用户</strong>
-		<p>
-			内容。。。。<br/>
-			内容。。。。内容。。。。内容。。。。内容。。。。<br/>内容。。。。内容。。。。内容。。。。内容。。。。<br/>
-			内容。。。。内容。。。。内容。。。。<br/>内容。。。。<br/>
-		</p>
-		<div class="attach">
-		</div>
-	</div>
-	<div class="footBorder"></div>
-</div>
 {:include(discus/viewpagebar)}
 
-<div class="segTitle">回复</div>
-<textarea style="width:818px;height:90px;border:1px solid #ADF;border-top:0;"></textarea>
-<input type="submit" value="回复" style="padding:5px 10px;"/>
+<script type="text/javascript">
+function reply(){
+	var text=$('#replyText').val();
+	$('#replyBtn').attr('disabled',true);
+	$.post('{:BASE_PATH}?a=discus&m=reply',{'text':text,'did':{:$did}},function(data){
+		if(data=='ok'){
+			window.location.reload();
+		}else{
+	$('#replyBtn').attr('disabled',false);
+			alert('回复失败：'+data);
+		}
+	});
+}
+</script>
+
+<div class="segTitle">回复<a name="reply"/></div>
+<textarea id="replyText" style="width:818px;height:90px;border:1px solid #ADF;border-top:0;"></textarea>
+<button onclick="reply()" id="replyBtn">回复</button>
 
 {:include(footer)}

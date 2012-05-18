@@ -235,7 +235,7 @@ a{
 	font-size:12px;
 	font-weight:normal;
 }
-.body .main .segTitle button,.leftBar button{
+button{
 	width:58px;
 	height:24px;
 	line-height:25px;
