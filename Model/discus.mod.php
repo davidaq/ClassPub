@@ -26,6 +26,7 @@ SELECT d.`did`,u.`name`,d.`cid`,d.`time`,d.`type`,d.`title`
 	FROM `{$TP}discus` d JOIN `{$TP}user` u
 		ON u.uid=d.uid
 	WHERE `cid` IN $cid AND `reply`=0 AND `type` IN $type
+	ORDER BY `time` DESC
 	LIMIT $start	,$countPerPage
 
 %replyCount		//获取多个主题回复个数

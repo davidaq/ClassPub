@@ -43,7 +43,7 @@ DELETE
 %students			//学生名单
 $cid
 SELECT a.`name`,a.`uid`
-	FROM `{$TP}user` a JOIN `{$TP}c_s` b
+	FROM `{$TP}user` a JOIN `{$TP}s_c` b
 		ON a.`uid`=b.`uid`
 	WHERE `cid`=$cid
 

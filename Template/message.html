@@ -55,7 +55,7 @@
 			<div class="tr">
 				<strong>来自：{:$v['name']}</strong><label>{:$v['time']}</label>
 			</div>
-			<p class="content">{:$v['text']}</p>
+			<p class="content">{:nl2br($v['text'])}</p>
 			<div class="tool">回复 <a href="javascript:void(0)" onclick="sayTo({:$v['from']},this)">{:$v['name']}</a> | <a href="javascript:del({:$v['msid']})">删除</a></div>
 		</div>
 	{:end}

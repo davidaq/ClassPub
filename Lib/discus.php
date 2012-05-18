@@ -101,6 +101,23 @@ function post(&$V){
 	$arg['type']=$type;
 	if($m->newTopic($arg)){
 		$V->set('message','主题发表成功！');
+		$did=mysql_insert_id();
+		if($type=='homework'){
+			$m=new Model('class');
+			$r=$m->students(array('cid'=>$cid));
+			$m=new Model('message');
+			$arg['from']=U::uid();
+			$url=BASE_PATH."?a=discus&m=view&cid={$cid}&did={$did}";
+			$arg['text']=<<<MESG
+有作业啦！！
+点击<a href="{$url}" target="_blank">【这里】</a>查看作业详情。
+MESG;
+			if($r)
+			foreach($r as $f){
+				$arg['to']=$f['uid'];
+				$m->sendMessage($arg);
+			}
+		}
 	}else{
 		$V->set('message','主题发表失败');
 	}
