@@ -7,6 +7,18 @@ $(function(){
 		var text=(names[i])?names[i]:(i+1)+'楼';
 		$(this).append('<div class="pos">'+text+'</div>');
 	});
+	$('.body .discusThread .content .attachment img').load(function(){
+		var w=$(this).width();
+		var h=$(this).height();
+		var pw=400;
+		if(w>pw){
+			$(this).width(pw);
+			h=h*pw/w;
+			$(this).height(h);
+		}
+		$(this).parent().width('auto');
+		$(this).parent().height('auto');
+	});
 });
 </script>
 <h3>查看主题</h3>
@@ -21,7 +33,7 @@ function del(did,item){
 	});
 }
 </script>
-
+<?php $i=0; ?>
 {:loop($threads as $v)}
 	<div class="discusThread">
 		<div class="headBorder"></div>
@@ -33,8 +45,18 @@ function del(did,item){
 			{:end}
 			<strong>{:$v['username']} <span>发表于 {:$v['time']}</span></strong>
 			<p>{:nl2br($v['content'])}</p>
-			<div class="attach">
-			</div>
+			{:if($i++==0)}
+				{:loop($attachment as $att)}
+					<div class="tr">
+						<div class="attachment">
+							附件：<a href="{:$att['url']}" target="_blank">{:$att['name']}</a>
+							{:if($att['is_image'])}
+								<div class="imgwrap"><img src="{:$att['url']}"/></div>
+							{:end}
+						</div>
+					</div>
+				{:end}
+			{:end}
 		</div>
 		<div class="footBorder"></div>
 	</div>

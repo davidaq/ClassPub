@@ -574,6 +574,22 @@ button{
 	display:block;
 	border-bottom:1px dashed #CCF;
 }
+.body .discusThread .content .attachment{
+	background:#EEE;
+	border:1px dashed #ADF;
+	padding:5px;
+	margin-bottom:5px;
+	float:left;
+}
+.body .discusThread .content .attachment .imgwrap{
+	width:1px;
+	height:1px;
+	overflow:hidden;
+}
+.body .discusThread .content .attachment img{
+	width:auto;
+	height:auto;
+}
 .body .discusThread .content strong span{
 	font-weight:normal;
 	font-size:13px;

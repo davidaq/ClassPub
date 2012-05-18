@@ -102,6 +102,7 @@ function post(&$V){
 	if($m->newTopic($arg)){
 		$V->set('message','主题发表成功！');
 		$did=mysql_insert_id();
+		$V->set('url',BASE_PATH.'?a=discus&m=view&did='.$did);
 		if($type=='homework'){
 			$m=new Model('class');
 			$r=$m->students(array('cid'=>$cid));
@@ -117,6 +118,18 @@ MESG;
 				$arg['to']=$f['uid'];
 				$m->sendMessage($arg);
 			}
+		}
+		if($_SESSION['upl']){
+			$m=new Model('attachment');
+			$arg['did']=$did;
+			foreach($_SESSION['upl'] as $f){
+				$url=str_replace('/tmp/','/',$f['url']);
+				rename($f['url'],$url);
+				$arg['url']=$url;
+				$arg['name']=$f['name'];
+				$m->addAttachment($arg);
+			}
+			$_SESSION['upl']=array();
 		}
 	}else{
 		$V->set('message','主题发表失败');
@@ -156,6 +169,13 @@ function view(&$V){
 	$m=new Model('class');
 	$r=$m->getBasic(array('cid'=>$cid));
 	$V->set('teacher',$r[0]['teacher']);
+	
+	$m=new Model('attachment');
+	$r=$m->getAttachment(array('did'=>$did));
+	foreach($r as $k=>$f){
+		$r[$k]['is_image']=$f['isupload']?is_image($f['url']):false;
+	}
+	$V->set('attachment',$r);
 }
 function reply(&$V){
 	if(!isset($_POST['text'])&&!isset($_POST['did'])||!is_numeric($_POST['did'])){
@@ -175,6 +195,14 @@ function reply(&$V){
 function del(&$V){
 	if(isset($_POST['ids'])){
 		$ids=explode(',',$_POST['ids']);
+		$m=new Model('attachment');
+		foreach($ids as $did){
+			$r=$m->getAttachment(array('did'=>$did));
+			foreach($r as $f){
+				if($f['upload'])
+					@unlink($f['url']);
+			}
+		}
 		$m=new Model('discus');
 		$m->removeThread(array('dids'=>$ids));
 		die('ok');
