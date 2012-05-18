@@ -3,7 +3,9 @@
 	$(function(){
 		$('.messages .item').hover(function(){
 			var $c=$(this).find('.tool');
+			$c.stop(true,false);
 			$c.show();
+			$c.css({opacity:1});
 			$(this).css({background:'#F7F7F7'});
 		},function(){
 			var $c=$(this).find('.tool');
@@ -29,62 +31,63 @@
 		$('.sendMessage').css({top:$(window).scrollTop()+($(window).height()-$('.sendMessage').height())/2,
 					left:$(window).scrollLeft()+($(window).width()-$('.sendMessage').width())/2});
 	});
+	function sayTo(uid,item){
+		$('#sendMessageDlg').show(200);
+		$('#sendMessageDlg .user').html($(item).text());
+		$('#sendMessageDlg .uid').val(uid);
+	}
+	function closeDlg(){
+		$('#sendMessageDlg').hide(200);	
+	}
+	aaa='';
+	function del(id){
+		$('#messageItem'+id).hide(200,function(){
+			$(this).remove();
+		});
+		$.get('{:BASE_PATH}?a=message&m=delete&msid='+id);
+	}
 </script>
 <h2>站内信息</h2>
 <div class="segTitle">消息列表 <span> - 系统最多只会为每个用户保留30条消息（旧的消息会被清除），所以请及时处理。</span></div>
 <div class="messages">
-	<div class="item">
-		<div class="tr">
-			<strong>来自：testuser</strong><label>[ 刚刚 ]</label>
+	{:loop($messages as $v)}
+		<div class="item" id="messageItem{:$v['msid']}">
+			<div class="tr">
+				<strong>来自：{:$v['name']}</strong><label>{:$v['time']}</label>
+			</div>
+			<p class="content">{:$v['text']}</p>
+			<div class="tool">回复 <a href="javascript:void(0)" onclick="sayTo({:$v['from']},this)">{:$v['name']}</a> | <a href="javascript:del({:$v['msid']})">删除</a></div>
 		</div>
-		<p class="content">blah blah blah</p>
-		<div class="tool"><a href="">回复</a> | <a href="">删除</a></div>
-	</div>
-	<div class="item">
-		<div class="tr">
-			<strong>来自：testuser</strong><label>[ 5分钟前 ]</label>
-		</div>
-		<p class="content">blah blah blah</p>
-		<div class="tool"><a href="">回复</a> | <a href="">删除</a></div>
-	</div>
-	<div class="item">
-		<div class="tr">
-			<strong>来自：tester </strong><label>[ 1小时前 ]</label>
-		</div>
-		<p class="content">blah blah blah</p>
-		<div class="tool"><a href="">回复</a> | <a href="">删除</a></div>
-	</div>
+	{:end}
 </div>
 <div class="segTitle">我的同学们<button>所有</button></div>
 <div class="friendList tr">
-	<a href="" class="item">testuser</a>
-	<a href="" class="item">tester</a>
-	<a href="" class="item">tryer</a>
-	<a href="" class="item">somebody</a>
-	<a href="" class="item">testuser</a>
-	<a href="" class="item">tester</a>
-	<a href="" class="item">tryer</a>
-	<a href="" class="item">somebody</a>
-	<a href="" class="item">testuser</a>
-	<a href="" class="item">tester</a>
-	<a href="" class="item">tryer</a>
-	<a href="" class="item">somebody</a>
+	{:loop($classMates as $v)}
+		<a href="javascript:void(0);" onclick="sayTo({:$v['uid']},this)" class="item">{:$v['name']}</a>
+	{:end}
 </div>
 <div class="segTitle">我的学生们</div>
 <div class="friendList tr">
+	{:loop($students as $v)}
+		<a href="javascript:void(0);" onclick="sayTo({:$v['uid']},this)" class="item">{:$v['name']}</a>
+	{:end}
 </div>
 <div class="segTitle">我的老师们</div>
 <div class="friendList tr">
+	{:loop($teachers as $v)}
+		<a href="javascript:void(0);" onclick="sayTo({:$v['uid']},this)" class="item">{:$v['name']}</a>
+	{:end}
 </div>
-<div class="sendMessage">
+<form action="{:BASE_PATH}?a=message&m=send" onsubmit="return false;" method="post" id="sendMessageDlg" class="sendMessage" style="display:none;">
 	<span>
 		<h3>发送消息</h3>
-		<div>发送至：<label>testuser</label></div>
-		<div><textarea></textarea></div>
+		<div>发送至：<label class="user">testuser</label></div>
+		<input type="hidden" name="uid" class="uid" value=""/>
+		<div><textarea name="text"></textarea></div>
 		<div class="buttons">
-			<button>发送</button>
-			<button>关闭</button>
+			<button onclick="submit()">发送</button>
+			<button onclick="closeDlg()">关闭</button>
 		</div>
 	</span>
-</div>
+</form>
 {:include(footer)}

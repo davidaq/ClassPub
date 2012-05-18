@@ -3,9 +3,11 @@
 
 %fetchMessage		//获取消息
 $uid
-SELECT * 
-	FROM `{$TP}message`
+SELECT a.*,b.name
+	FROM `{$TP}message` a JOIN `{$TP}user` b
+		ON a.from=b.uid
 	WHERE `to`=$uid
+	ORDER BY `time` DESC
 
 %sendMessage			//发送消息
 $to
@@ -19,4 +21,4 @@ $uid
 $msid
 DELETE 
 FROM `{$TP}message` 
-WHERE `uid`=$uid AND `msid`=$msid
+WHERE `to`=$uid AND `msid`=$msid
