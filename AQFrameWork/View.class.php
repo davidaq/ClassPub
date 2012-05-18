@@ -53,7 +53,7 @@ class View{
 			$raw=preg_replace('/{:elseif\s*\((.+?)\)}/i','<?php }elseif($1){ ?>',$raw);
 			$raw=preg_replace('/{:else}/i','<?php }else{ ?>',$raw);
 			$raw=preg_replace('/{:(?:end|endif|endloop)}/i','<?php } ?>',$raw);
-			$raw=preg_replace('/{:loop\s*\((.+?as.+?)\)}/i','<?php foreach($1){ ?>',$raw);
+			$raw=preg_replace('/{:loop\s*\((.+?)\bas\b(.+?)\)}/i','<?php if(is_array($1))foreach($1 as $2){ ?>',$raw);
 			$raw=preg_replace('/{:(.+?)}/','<?php echo $1;?>',$raw);
 			$this->raw=$raw;
 			unset($raw);

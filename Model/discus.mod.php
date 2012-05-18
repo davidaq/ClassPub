@@ -3,9 +3,18 @@
 
 %topicCount		//主题个数
 $cid
+SELECT COUNT(*) num
+	FROM `{$TP}discus`
+	WHERE `cid` IN $cid AND `reply`=0
+
+%topicCountAll		//主题个数
+$uid
 SELECT COUNT(*)
 	FROM `{$TP}discus`
-	WHERE `cid`=$cid
+	WHERE `cid` IN (
+		SELECT `cid` FROM `{$TP}s_c`
+			WHERE `uid`=$uid
+	)
 
 
 %listTopics		//列出主题
@@ -16,7 +25,7 @@ $type
 SELECT d.`did`,u.`name`,d.`cid`,d.`time`,d.`type`,d.`title`
 	FROM `{$TP}discus` d JOIN `{$TP}user` u
 		ON u.uid=d.uid
-	WHERE ($cid=0 OR `cid`=$cid) AND `reply`=0 AND `type` IN $type
+	WHERE `cid` IN $cid AND `reply`=0 AND `type` IN $type
 	LIMIT $start	,$countPerPage
 
 %replyCount		//获取多个主题回复个数
@@ -76,4 +85,5 @@ SELECT d.*,u.`name` username
 	FROM `{$TP}discus` d JOIN `{$TP}user` u
 		ON d.`uid`=u.`uid`
 	WHERE `did`=$did OR `reply`=$did
+	ORDER BY `did` ASC
 	LIMIT $start,$countPerPage

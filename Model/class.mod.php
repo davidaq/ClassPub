@@ -1,9 +1,9 @@
 <?php die(); ?>
 课程模块，主要操作表：class,s_c
 
-%getName
+%getBasic
 $cid
-SELECT `name` FROM `{$TP}class`
+SELECT `name`,`teacher` FROM `{$TP}class`
 	WHERE `cid`=$cid
 
 %getLearn		//获取用户所有 学 的课程
@@ -39,6 +39,13 @@ FROM `{$TP}s_c`
 DELETE
 	FROM `{$TP}class`
 	WHERE `cid`=$cid AND `teacher`=$uid
+
+%students			//学生名单
+$cid
+SELECT a.`name`,a.`uid`
+	FROM `{$TP}user` a JOIN `{$TP}c_s` b
+		ON a.`uid`=b.`uid`
+	WHERE `cid`=$cid
 
 %joinClass		//加入课堂学习
 $uid

@@ -2,20 +2,48 @@
 isset($_CONFIG)||die();
 
 function index(&$V){
-	if(CID==0)
+	$m=new Model('class');
+	if(CID==0){
 		$V->set('cname','全部课程');
-	else{
-		$m=new Model('class');
-		$r=$m->getName(array('cid'=>CID));
+		$V->set('teacher',0);
+		$cids=array();
+		$arg['uid']=U::uid();
+		$r=$m->getTeach($arg);
+		foreach($r as $f){
+			$cids[]=$f['cid'];
+		}
+		$r=$m->getLearn($arg);
+		foreach($r as $f){
+			$cids[]=$f['cid'];
+		}
+	}else{
+		$r=$m->getBasic(array('cid'=>CID));
 		$V->set('cname',$r[0]['name']);
+		$V->set('teacher',$r[0]['teacher']);
+		$cids=array(CID);
 	}
+		
+		
 	$m=new Model('discus');
-	$arg['cid']=CID;
+
+	$r=$m->topicCount(array('cid'=>$cids,'uid'=>U::uid()));
+	$totalCount=$r[0]['num'];
+	$V->set('topicCount',$totalCount);
+
+	$arg['cid']=$cids;
 	$arg['countPerPage']=20;
 	$arg['start']=(PAGE-1)*$arg['countPerPage'];
-	$arg['type']=array('normal','homework','attachment');
+	if(isset($_GET['type'])){
+		$arg['type']=array(htmlspecialchars($_GET['type']));
+		$V->set('ttype',$arg['type'][0]);
+	}else{
+		$arg['type']=array('normal','homework','attachment');
+		$V->set('ttype','all');
+	}
 	$r=$m->listTopics($arg);
 	$V->set('topicList',$r);
+	
+	$V->set('pager',pager($totalCount,$arg['countPerPage'],PAGE));
 
 	$dids=array();
 	foreach($r as $f){
@@ -95,8 +123,9 @@ function view(&$V){
 	$V->set('threads',$r);
 	
 	$r=$m->replyCount(array('dids'=>array($did)));
-	$V->set('replyCount',$r[0]['num']);
-	$V->set('pager',pager($r[0]['num']+1,$arg['countPerPage'],PAGE));
+	$rc=($r)?$r[0]['num']:0;
+	$V->set('replyCount',$rc);
+	$V->set('pager',pager($rc+1,$arg['countPerPage'],PAGE));
 }
 function reply(&$V){
 	if(!isset($_POST['text'])&&!isset($_POST['did'])||!is_numeric($_POST['did'])){
