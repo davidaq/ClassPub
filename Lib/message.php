@@ -3,6 +3,7 @@ function index(&$V){
 	$m=new Model('message');
 	$arguid['uid']=U::uid();
 	$r=$m->fetchMessage($arguid);
+	$mcount=0;
 	foreach($r as $k=>$f){
 		$t=time()-strtotime($f['time']);
 		if($t<60){
@@ -13,8 +14,13 @@ function index(&$V){
 		}else if($t<3600*48){
 			$r[$k]['time']=ceil($t/3600).'小时前';
 		}
+		if($f['read']==0)
+			$mcount++;
 	}
+	$V->set('mcount',$mcount);
+	
 	$V->set('messages',$r);
+	$m->readAll(array('uid'=>U::uid()));
 
 	$m=new Model('relation');
 	$r=$m->getClassMates($arguid);

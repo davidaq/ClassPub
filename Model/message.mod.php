@@ -1,6 +1,18 @@
 <?php die(); ?>
 消息模块
 
+%getUnreadCount
+$uid
+SELECT COUNT(*) num
+	FROM `{$TP}message`
+	WHERE `to`=$uid AND `read`=0
+	
+%readAll
+$uid
+UPDATE `{$TP}message`
+	SET `read`=1
+	WHERE `to`=$uid
+
 %fetchMessage		//获取消息
 $uid
 SELECT a.*,b.name

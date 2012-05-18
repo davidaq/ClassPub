@@ -1,6 +1,11 @@
 <?php die();?>
 交流模块，主要操作discus表
 
+%getCid
+$did
+SELECT `cid` FROM `{$TP}discus`
+	WHERE `did`=$did
+
 %topicCount		//主题个数
 $cid
 SELECT COUNT(*) num
@@ -71,12 +76,17 @@ UPDATE `{$TP}discus`
 	WHERE `uid`=$uid AND `did`=$did
 
 %removeThread	//删除帖子/主题
-$uid
-$did
+$dids
 DELETE FROM `{$TP}discus`
-	WHERE `uid`=$uid AND `did`=$did;
+	WHERE `did` IN $dids;
 DELETE FROM `{$TP}discus`
-	WHERE `reply`=$did;
+	WHERE `reply` IN $dids;
+	
+%liftThread		//提前主题
+$dids
+UPDATE `{$TP}discus`
+	SET `time`=NOW()
+	WHERE `did` IN $dids
 	
 %fetchStory		//获取一个楼
 $did

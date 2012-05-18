@@ -129,20 +129,33 @@ function view(&$V){
 		$V->set('message','非法访问');
 		$V->set('url',BASE_PATH);
 	}
+	
 	$did=ceil($_GET['did']);
 	$V->set('did',$did);
 	$m=new Model('discus');
 	$arg['did']=$did;
-	$arg['countPerPage']=12;
+	$arg['countPerPage']=10;
 	$arg['start']=(PAGE-1)*$arg['countPerPage'];
 	$V->set('start',$arg['start']);
 	$r=$m->fetchStory($arg);
+	if(!$r){
+		$V=new View('notice');
+		$V->set('url',BASE_PATH.'?a=discus&cid='.CID);
+		$V->set('message','这个主题不存在或者已删除！');
+		return;
+	}
 	$V->set('threads',$r);
+	$cid=$m->getCid(array('did'=>$did));
+	$cid=$cid[0]['cid'];
 	
 	$r=$m->replyCount(array('dids'=>array($did)));
 	$rc=($r)?$r[0]['num']:0;
 	$V->set('replyCount',$rc);
 	$V->set('pager',pager($rc+1,$arg['countPerPage'],PAGE));
+	
+	$m=new Model('class');
+	$r=$m->getBasic(array('cid'=>$cid));
+	$V->set('teacher',$r[0]['teacher']);
 }
 function reply(&$V){
 	if(!isset($_POST['text'])&&!isset($_POST['did'])||!is_numeric($_POST['did'])){
@@ -158,5 +171,21 @@ function reply(&$V){
 		die('ok');
 	else
 		die('数据库错误');
+}
+function del(&$V){
+	if(isset($_POST['ids'])){
+		$ids=explode(',',$_POST['ids']);
+		$m=new Model('discus');
+		$m->removeThread(array('dids'=>$ids));
+		die('ok');
+	}
+}
+function lift(&$V){
+	if(isset($_POST['ids'])){
+		$ids=explode(',',$_POST['ids']);
+		$m=new Model('discus');
+		$m->liftThread(array('dids'=>$ids));
+		die('ok');
+	}
 }
 ?>

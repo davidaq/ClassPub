@@ -6,10 +6,13 @@
 			$c.stop(true,false);
 			$c.show();
 			$c.css({opacity:1});
-			$(this).css({background:'#F7F7F7'});
+			$(this).css({background:'#FAFAFA'});
 		},function(){
 			var $c=$(this).find('.tool');
-			$(this).css({background:'none'});
+			if($(this).hasClass('unread'))
+				$(this).css({background:'#F0F0FF'});
+			else
+				$(this).css({background:'none'});
 			$c.stop(true,false);
 			$c.fadeOut(200);
 		});
@@ -51,7 +54,7 @@
 <div class="segTitle">消息列表 <span> - 系统最多只会为每个用户保留30条消息（旧的消息会被清除），所以请及时处理。</span></div>
 <div class="messages">
 	{:loop($messages as $v)}
-		<div class="item" id="messageItem{:$v['msid']}">
+		<div class="item{:$v['read']?'':' unread'}" id="messageItem{:$v['msid']}">
 			<div class="tr">
 				<strong>来自：{:$v['name']}</strong><label>{:$v['time']}</label>
 			</div>
@@ -60,19 +63,32 @@
 		</div>
 	{:end}
 </div>
-<div class="segTitle">我的同学们<button>所有</button></div>
+<script type="text/javascript">
+$(function(){
+	$('.cataTab').click(function(){
+		if($(this).text()=='隐藏'){
+			$(this).parent().next('.friendList').hide();
+			$(this).html('展开');
+		}else{
+			$(this).parent().next('.friendList').show();
+			$(this).html('隐藏');
+		}
+	});
+});
+</script>
+<div class="segTitle">我的同学们<button class="cataTab">隐藏</button></div>
 <div class="friendList tr">
 	{:loop($classMates as $v)}
 		<a href="javascript:void(0);" onclick="sayTo({:$v['uid']},this)" class="item">{:$v['name']}</a>
 	{:end}
 </div>
-<div class="segTitle">我的学生们</div>
+<div class="segTitle">我的学生们<button class="cataTab">隐藏</button></div>
 <div class="friendList tr">
 	{:loop($students as $v)}
 		<a href="javascript:void(0);" onclick="sayTo({:$v['uid']},this)" class="item">{:$v['name']}</a>
 	{:end}
 </div>
-<div class="segTitle">我的老师们</div>
+<div class="segTitle">我的老师们<button class="cataTab">隐藏</button></div>
 <div class="friendList tr">
 	{:loop($teachers as $v)}
 		<a href="javascript:void(0);" onclick="sayTo({:$v['uid']},this)" class="item">{:$v['name']}</a>

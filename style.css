@@ -23,6 +23,7 @@ input,textarea{
 }
 a{
 	text-decoration:none;
+	color:#25A;
 }
 .tr {
 	overflow:hidden;
@@ -350,8 +351,8 @@ button{
 	text-align:center;
 	margin:10px 0;
 	font-size:14px;
-	border-top:1px solid #F7F7F7;
-	border-bottom:1px solid #EEE;
+	border-top:1px dotted #F7F7F7;
+	border-bottom:1px dotted #EEE;
 	padding:5px 0;
 }
 .body .pageOpt p{
@@ -366,6 +367,13 @@ button{
 	padding:10px;
 	border-bottom:1px solid #EEE;
 	line-height:20px;
+	position:relative;
+	display:block;
+}
+.body .discus .item .checkbox{
+	position:absolute;
+	top:10px;
+	right:10px;
 }
 .body .discus .item .replyNum{
 	display:block;
@@ -407,7 +415,7 @@ button{
 	background-color:#FAFAFA;
 }
 .body .discus .alter .author{
-	background-position-y:-37px;
+	background-position-y:-38px;
 }
 
 .body .options{
@@ -443,9 +451,15 @@ button{
 	border-bottom:1px solid #CEF;
 	position:relative;
 }
+.body .messages .unread{
+	background:#F0F0FF;
+}
+.body .messages .unread strong{
+	color:#222;
+}
 .body .messages .item strong{
-	font-size:16px;
-	color:#333;
+	font-size:15px;
+	color:#555;
 	display:block;
 	line-height:17px;
 	width:170px;
@@ -547,6 +561,13 @@ button{
 .body .discusThread .content{
 	background:#F7F7F7;
 	padding:5px 20px;
+	position:relative;
+}
+.body .discusThread .content .tools{
+	font-size:13px;
+	position:absolute;
+	right:10px;
+	top:0px;
 }
 .body .discusThread .content strong{
 	color:#047;

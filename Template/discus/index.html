@@ -26,11 +26,48 @@
 					<div>{:$replyer[$replys[$v['did']]['last']]}</div>
 				{:end}
 			</span>
+			{:if($teacher==U::uid())}
+				<input type="checkbox" class="checkbox" value="{:$v['did']}"/>
+			{:end}
 		</div>	
 	{:end}
 </div>
 {:include(discus/pagebar)}
-<a name="newTopic"/>
+
+<script type="text/javascript">
+function doact(act){
+	if(act=='del'){
+		if(!confirm('真的要删除所选主题吗？'))
+			return;
+	}
+	var sel=[];
+	$('.body .discus .item .checkbox').each(function(){
+		if($(this).attr('checked')){
+			sel.push($(this).val());
+		}
+	});
+	if(sel.length>0){
+		$.post('{:BASE_PATH}?a=discus&m='+act,{'ids':sel.join(',')},function(data){
+			document.location.reload();
+		});
+	}
+}
+</script>
+
+{:if($teacher==U::uid())}
+<div class="segTitle">
+	管理
+</div>
+<div class="genForm">
+	<p>
+		<label>对所选主题：</label>
+		<button onclick="doact('del')">删除</button>
+		<button onclick="doact('lift')">提前</button>
+	</p>
+</div>
+{:end}
+
+<a name="newTopic"></a>
 <div class="segTitle">
 	发表新主题 <span>- 发起新话题、分享资源、发布作业</span>
 	<button onclick="$('#postTopic').submit()">发表</button>

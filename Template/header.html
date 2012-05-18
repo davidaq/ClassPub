@@ -35,6 +35,11 @@ $(function(){
 		function setHeaderTab($act){
 			return APP_ACTION==$act?' sel':'';
 		}
+		if(!isset($mcount)){
+			$m=new Model('message');
+			$mcount=$m->getUnreadCount(array('uid'=>U::uid()));
+			$mcount=$mcount[0]['num'];
+		}
 	?>
 		<span class="item{:setHeaderTab('index')}">
 			<a href="{:BASE_PATH}" title="看看在这里都能做些啥">
@@ -59,7 +64,7 @@ $(function(){
 		<span class="item{:setHeaderTab('message')}">
 			<a href="{:BASE_PATH}?a=message" title="查看其用户发来的私密消息">
 				<strong>站内信息</strong>
-				<span>共 0 条未读消息</span>
+				<span>共 {:$mcount} 条未读消息</span>
 			</a>
 		</span>
 		<span class="item{:setHeaderTab('settings')}">

@@ -12,10 +12,25 @@ $(function(){
 <h3>查看主题</h3>
 {:include(discus/viewpagebar)}
 
+<script type="text/javascript">
+function del(did,item){
+	$.post('{:BASE_PATH}?a=discus&m=del',{'ids':did},function(data){
+		$(item).closest('.discusThread').hide(200,function(){
+			$(this).remove();
+		});
+	});
+}
+</script>
+
 {:loop($threads as $v)}
 	<div class="discusThread">
 		<div class="headBorder"></div>
 		<div class="content">
+			{:if($teacher==U::uid()||$v['uid']==U::uid())}
+			<div class="tools">
+				<a href="javascript:void(0);" onclick="del({:$v['did']},this)">删除</a>
+			</div>
+			{:end}
 			<strong>{:$v['username']} <span>发表于 {:$v['time']}</span></strong>
 			<p>{:nl2br($v['content'])}</p>
 			<div class="attach">
@@ -42,7 +57,7 @@ function reply(){
 }
 </script>
 
-<div class="segTitle">回复<a name="reply"/></div>
+<div class="segTitle">回复<a name="reply"></a></div>
 <textarea id="replyText" style="width:818px;height:90px;border:1px solid #ADF;border-top:0;"></textarea>
 <button onclick="reply()" id="replyBtn">回复</button>
 
