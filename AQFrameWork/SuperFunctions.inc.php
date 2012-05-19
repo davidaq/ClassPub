@@ -19,6 +19,16 @@ function M($path){	//Initialize a model
 function V($path){	//Initialize a view
 	return new View($path);
 }
+function val($arr){
+	if(isset($arr[0])&&is_array($arr[0])){
+		$r=array_values($arr[0]);
+		if(isset($r[1]))
+			return $arr[0];
+		else
+			return $r[0];
+	}
+	return NULL;
+}
 function lib_exec($action=false,$method=false){
 	global $_CONFIG;
 	if($action===false)

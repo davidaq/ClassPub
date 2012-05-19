@@ -1,5 +1,17 @@
 {:include(header)}
 <script type="text/javascript">
+var sizeName=['B','KB','MB','GB'];
+function parseSize(size){
+	if(size==0)
+		return '未知大小';
+	var sizeN=0;
+	while(size>1024){
+		size/=1024;
+		sizeN++;
+	}
+	size=Math.floor(size*100)/100+sizeName[sizeN];
+	return size;
+}
 $(function(){
 	var names=['楼主','沙发'];
 	$('.discusThread .content').each(function(i){
@@ -18,6 +30,9 @@ $(function(){
 		}
 		$(this).parent().width('auto');
 		$(this).parent().height('auto');
+	});
+	$('.filesize').each(function(){
+		$(this).html(parseSize($(this).text()));
 	});
 });
 </script>
@@ -49,11 +64,36 @@ function del(did,item){
 				{:loop($attachment as $att)}
 					<div class="tr">
 						<div class="attachment">
-							附件：<a href="{:$att['url']}" target="_blank">{:$att['name']}</a>
+							附件：<a href="{:BASE_PATH}?a=attachment&m=download&atid={:$att['atid']}" target="_blank">{:$att['name']}</a>
+							<span class="filesize">{:$att['size']}</span>
 							{:if($att['is_image'])}
-								<div class="imgwrap"><img src="{:$att['url']}"/></div>
+								<div class="imgwrap"><img src="{:BASE_PATH}?a=attachment&m=download&atid={:$att['atid']}"/></div>
 							{:end}
 						</div>
+					</div>
+				{:end}
+				{:if($v['type']=='homework'&&$v['commitol'])}
+					<div class="homework">
+						这个作业需要在线提交！
+						已提交的人：
+						<div class="tr">
+						<?php $cmt=false;?>
+						{:loop($doneHomework as $d)}
+							<a
+							{:if(in_array(U::uid(),array($teacher,$d['uid'])))}href="{:BASE_PATH}?a=discus&m=homeworkGet&did={:$did}&uid={:$d['uid']}" target="_blank"{:end}
+							{:if(U::uid()==$d['uid'])}<?php $cmt=true;?> style="font-weight:bold;color:#F00" title="您已提交"'{:end}>{:$d['name']}</a>
+						{:end}
+						</div>
+						{:if(U::uid()!=$teacher)}
+							{:if($cmt)}
+								<b>此作业您已提交</b>
+							{:else}
+							<form enctype="multipart/form-data" onsubmit="return false" method="post" action="{:BASE_PATH}?a=discus&m=homework">
+								提交作业：<input type="file" name="file"/><button onclick="submit()">提交</button>
+								<input type="hidden" name="did" value="{:$did}"/>
+							</form>
+							{:end}
+						{:end}
 					</div>
 				{:end}
 			{:end}
@@ -72,7 +112,7 @@ function reply(){
 		if(data=='ok'){
 			window.location.reload();
 		}else{
-	$('#replyBtn').attr('disabled',false);
+			$('#replyBtn').attr('disabled',false);
 			alert('回复失败：'+data);
 		}
 	});

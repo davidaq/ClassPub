@@ -1,12 +1,16 @@
 <!doctype html>
 <html>
 <head>
-<meta http-equiv="refresh" content="3;url={:$url}"> 
+{:if(isset($url)&&$url)}
+	<meta http-equiv="refresh" content="3;url={:$url}"> 
+{:end}
 <title>提示</title>
 <meta charset="UTF-8"/>
 </head>
 <body>
 {:$message}<br/>
-3秒后自动跳转，如果没有请点击<a href="{:$url}">【这里】</a>
+{:if(isset($url)&&$url)}
+	3秒后自动跳转，如果没有请点击<a href="{:$url}">【这里】</a>
+{:end}
 </body>
 </html>

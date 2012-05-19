@@ -91,7 +91,7 @@ function removeAtt(item){
 	</p>
 	<div id="attachmentField">
 	</div>
-	<form target="" enctype="multipart/form-data" onsubmit="return addAtt();" action="{:BASE_PATH}?a=attachment&m=upload" id="attachmentForm" method="post">
+	<form style="margin-left:20px" target="" enctype="multipart/form-data" onsubmit="return addAtt();" action="{:BASE_PATH}?a=attachment&m=upload" id="attachmentForm" method="post">
 		<p style="line-height:35px;">
 			<input type="radio" name="type" value="upload" id="attUpload"/><label for="attUpload">上传附件</label> <input type="file" name="upload" onchange="$('#attUpload').attr('checked',true);$('#attLinkTo').attr('checked',false);" id="fileField"/><br/>
 			<input type="radio" name="type" value="linkto" id="attLinkTo"/><label for="attLinkTo">链接地址</label> <input type="text" name="url" onfocus="$('#attLinkTo').attr('checked',true);$('#attUpload').attr('checked',false);"/><br/>

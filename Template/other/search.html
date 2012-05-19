@@ -1,0 +1,91 @@
+{:include(header)}
+
+<style type="text/css">
+.body{
+	position:relative;
+}
+.posts{
+	width:620px;
+}
+.posts .item span,.classes .item span{
+	color:#F33;
+}
+.posts .item{
+	padding:5px;
+	margin-top:20px;
+	font-size:14px;
+	border-top:1px dashed #DDF;
+}
+.posts .item a{
+	font-size:16px;
+	border-bottom:1px solid #AAF;
+}
+.posts .item label{
+	font-size:12px;
+	color:#999;
+	display:block;
+	padding:3px 0;
+}
+.rightBar{
+	position:absolute;
+	right:0;
+	top:0;
+	width:200px;
+	background:url(images/rightcol_bg.gif) no-repeat left bottom;
+	padding-bottom:20px;
+	font-size:14px;
+}
+.classes .item{
+	margin:5px;
+	border-top:1px solid #EEF;
+	padding:5px;
+}
+.classes .item strong{
+	display:block;
+}
+.classes .item a{
+	float:right;
+	font-size:13px;
+	margin-top:5px;
+}
+</style>
+<script type="text/javascript">
+$(function(){
+	if($('.rightBar').height()<150){
+		$('.rightBar').height(150);
+	}
+	if($('.body').height()<$('.rightBar').height()+10){
+		$('.body').height($('.rightBar').height()+10);
+	}
+})
+</script>
+<?php
+function high($str,&$pkey){
+	return preg_replace('/'.$pkey.'/','<span>$0</span>',$str);
+}
+?>
+<div class="rightBar">
+	<div class="classes ctPadding">
+		<div class="segTitle">您可能感兴趣的课堂</div>
+		{:loop($classes as $c)}
+		<div class="item">
+			<strong>{:high($c['name'],$pkey)}</strong>
+			{:high($c['description'],$pkey)}
+			<div class="tr"><a href="{:BASE_PATH}?a=other&m=apply&cid={:$c['cid']}">申请加入</a></div>
+		</div>
+		{:end}
+	</div>
+</div>
+<div class="posts">
+	<h2>搜索 “ {:KEYWORD} ” 结果</h2>
+		{:loop($posts as $c)}
+		<div class="item">
+			<a href="{:BASE_PATH}?a=discus&m=view&cid={:$c['cid']}&did={:$c['did']}" target="_blank">
+				{:high($c['title'],$pkey)}
+			</a>
+			<label>{:$c['user']} 发表于 {:$c['time']}</label>
+			{:high($c['text'],$pkey)}
+		</div>
+		{:end}
+</div>
+{:include(footer)}

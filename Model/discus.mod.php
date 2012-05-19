@@ -1,7 +1,12 @@
 <?php die();?>
 交流模块，主要操作discus表
 
-%getCid
+%topicName
+$did
+SELECT `title` FROM `{$TP}discus`
+	WHERE `did`=$did
+
+%getCid			//获取主题分类
 $did
 SELECT `cid` FROM `{$TP}discus`
 	WHERE `did`=$did
@@ -27,7 +32,7 @@ $cid
 $start						//第几页,的第一个
 $countPerPage			//每页显示个数
 $type
-SELECT d.`did`,u.`name`,d.`cid`,d.`time`,d.`type`,d.`title`
+SELECT d.`did`,d.`cid`,d.`time`,d.`type`,d.`title`,u.`name`
 	FROM `{$TP}discus` d JOIN `{$TP}user` u
 		ON u.uid=d.uid
 	WHERE `cid` IN $cid AND `reply`=0 AND `type` IN $type
@@ -54,17 +59,20 @@ $cid
 $title
 $text
 $type
+$commitol=0
 INSERT INTO `{$TP}discus`
-	(`uid`,`cid`,`title`,`content`,`type`)
-	VALUES($uid,$cid,$title,$text,$type)
+	(`uid`,`cid`,`title`,`content`,`type`,`commitol`)
+	VALUES($uid,$cid,$title,$text,$type,$commitol)
 
 %replyTopic		//回复主题
 $uid
 $did
+$cid
 $text
+$title=''
 INSERT INTO `{$TP}discus`
-	(`uid`,`content`,`reply`)
-	VALUES($uid,$text,$did)
+	(`title`,`uid`,`cid`,`content`,`reply`)
+	VALUES($title,$uid,$cid,$text,$did)
 
 
 %editThread		//编辑帖子/主题

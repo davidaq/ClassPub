@@ -10,34 +10,41 @@ SELECT `name`,`teacher` FROM `{$TP}class`
 $uid 
 SELECT cid,name
 	FROM `{$TP}class`
-	WHERE `cid`IN
+	WHERE `cid` IN
 		(SELECT cid
 			FROM`{$TP}s_c`
 			WHERE `uid`=$uid)
 
+%have
+$cid
+$uid
+SELECT COUNT(*) FROM `{$TP}s_c`
+	WHERE `cid`=$cid AND `uid`=$uid
+
+%countTeach
+$uid
+SELECT COUNT(*) as num
+	FROM `{$TP}class`
+	WHERE `teacher`=$uid
+
 %getTeach		//获取用户所有 教 的课程
 $uid
 SELECT cid,name
-FROM `{$TP}class`
-WHERE `teacher`=$uid
+	FROM `{$TP}class`
+	WHERE `teacher`=$uid
 
 %createClass		//创建课堂
 $uid
 $name
 $description
 INSERT  INTO class
-	(`uid`,`name`,`description`)
+	(`teacher`,`name`,`description`)
 	VALUES ($uid,$name,$description)
 
 %removeClass		//解散课堂
 $uid
 $cid
-DELETE  
-FROM `{$TP}s_c`
-	WHERE `cid`=$cid
-		
-DELETE
-	FROM `{$TP}class`
+DELETE FROM `{$TP}class`
 	WHERE `cid`=$cid AND `teacher`=$uid
 
 %students			//学生名单
@@ -53,10 +60,34 @@ $cid
 INSERT  INTO s_c
 	(`cid`,`uid`)
 	VALUES ($cid,$uid)
-	
+
 %leaveClass		//离开课堂
 $uid
 $cid
-DELETE 
-FROM `{$TP}s_c`
-WHERE `cid`=$cid AND `uid`=$uid
+DELETE FROM `{$TP}s_c`
+	WHERE `cid`=$cid AND `uid`=$uid
+	
+%offer
+$uid
+$cid
+$fromclass
+INSERT INTO `{$TP}offer`
+	(`uid`,`cid`,`fromclass`)VALUES($uid,$cid,$fromclass)
+
+%haveOffer
+$uid
+$cid
+$fromclass
+SELECT COUNT(*)
+	FROM `{$TP}offer`
+	WHERE `uid`=$uid AND `cid`=$cid AND `fromclass`=$fromclass
+
+%deleteOffer
+$uid
+$cid
+DELETE FROM `{$TP}offer`
+	WHERE `uid`=$uid AND `cid`=$cid
+
+%refreshOffer
+DELETE FROM `{$TP}offer`
+	WHERE `time`<NOW()-172800

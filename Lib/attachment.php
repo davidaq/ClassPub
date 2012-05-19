@@ -21,12 +21,21 @@ function upload(&$V){
 	$attId='atch'.time().rand(100,999);
 	if(isset($_FILES['upload'])&&$_POST['type']=='upload'){
 		$name=$_FILES['upload']['name'];
-		$ext=explode('.',$name);
-		$ext=(($t=count($ext))>1)?'.'.$ext[$t-1]:'';
-		$url='uploads/tmp/'.U::uid().'_'.$attId.$ext;
-		move_uploaded_file($_FILES['upload']['tmp_name'],$url);
-		$size=filesize($url);
-		$upload=true;
+		if($name&&$_FILES['upload']['tmp_name']){
+			$ext=explode('.',$name);
+			$ext=(($t=count($ext))>1)?'.'.$ext[$t-1]:'';
+			$url='uploads/tmp/'.U::uid().'_'.$attId.$ext;
+			if(move_uploaded_file($_FILES['upload']['tmp_name'],$url)){
+				$size=filesize($url);
+				$upload=true;
+			}else{
+				$name=false;
+				$url=false;
+			}
+		}else{
+			$name=false;
+			$url=false;
+		}
 	}else if(isset($_POST['url'])&&$_POST['type']=='linkto'){
 		$url=preg_replace('/^javascript/i','',$_POST['url']);
 		$name=$_POST['url'];
@@ -36,14 +45,25 @@ function upload(&$V){
 		$size=0;
 		$upload=false;
 	}
-	$res=array(
-		'name'=>$name,
-		'url'=>$url,
-		'size'=>$size,
-		'upload'=>$upload,
-		'id'=>$attId
-	);
-	$_SESSION['upl'][$attId]=$res;
+	if(!$name||!$name){
+		$res=array(
+			'name'=>'添加失败',
+			'url'=>'',
+			'size'=>$size,
+			'upload'=>false,
+			'id'=>0
+		);	
+	}else{
+		$res=array(
+			'name'=>$name,
+			'url'=>$url,
+			'size'=>$size,
+			'upload'=>$upload,
+			'id'=>$attId
+		);
+		$_SESSION['upl'][$attId]=$res;
+	}
+	
 	die('<body>'.json_encode($res).'</body>');
 }
 
@@ -65,6 +85,27 @@ function rm(&$V){
 			unlink($_SESSION['upl'][$_POST['id']]['url']);
 		}
 		unset($_SESSION['upl'][$_POST['id']]);
+	}
+}
+
+function download(&$V){
+	if(isset($_GET['atid'])){
+		$m=new Model('attachment');
+		$r=val($m->getBasic(array('atid'=>ceil($_GET['atid']))));
+		if($r['isupload']){
+			header('Content-Description: File Transfer');
+			header('Content-Type:Application/Unknow');
+			header('Content-Transfer-Encoding: binary');
+			header('Content-Length:'.filesize($r['url']));
+			header('Content-Disposition: attachment; filename="'.$r['name'].'"');
+			ob_clean();
+			flush();
+			readfile($r['url']);
+			die();
+		}else
+		{
+			header('Location:'.$r['url']);
+		}
 	}
 }
 ?>

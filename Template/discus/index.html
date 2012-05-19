@@ -77,7 +77,7 @@ function doact(act){
 		<input type="radio" id="typeDiscus" name="type" value="normal" checked onclick="$('#commitolbox').hide();"/><label for="typeDiscus">普通</label>
 		{:if($teacher==U::uid())}
 			<input type="radio" id="typeHomework" name="type" value="homework" onclick="$('#commitolbox').show()"/><label for="typeHomework">作业</label>
-			<span id="commitolbox" style="display:none">（<label for="commitol">需要在线提交</label><input id="commitol" name="commitol" type="checkbox"/>）</span>
+			<span id="commitolbox" style="display:none">（<label for="commitol">需要在线提交</label><input id="commitol" name="commitol" type="checkbox" value="1"/>）</span>
 		{:end}
 	</p>
 	<p>

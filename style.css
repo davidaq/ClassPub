@@ -575,20 +575,40 @@ button{
 	border-bottom:1px dashed #CCF;
 }
 .body .discusThread .content .attachment{
-	background:#EEE;
-	border:1px dashed #ADF;
+	background:#AFD;
+	border:1px dashed #CCC;
 	padding:5px;
-	margin-bottom:5px;
+	margin:10px;
 	float:left;
+	font-size:13px;
+	color:#456;
 }
 .body .discusThread .content .attachment .imgwrap{
 	width:1px;
 	height:1px;
 	overflow:hidden;
+	margin-top:5px;
 }
 .body .discusThread .content .attachment img{
 	width:auto;
 	height:auto;
+}
+.body .discusThread .content .homework{
+	background:#CEF;
+	border:1px dotted #AAA;
+	padding:10px;
+	margin:10px;
+	font-size:13px;
+}
+.body .discusThread .content .homework a{
+	padding:2px 5px;
+	margin:3px;
+	border:1px solid #CCC;
+	background:#F5F5F5;
+	display:block;
+	float:left;
+	cursor:pointer;
+	color:#557;
 }
 .body .discusThread .content strong span{
 	font-weight:normal;

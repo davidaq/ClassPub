@@ -1,6 +1,12 @@
 <?php die(); ?>
 附件模块
 
+%getBasic
+$atid
+SELECT `name`,`isupload`,`url` FROM `{$TP}attachment`
+	WHERE `atid`=$atid
+
+
 %getAttachment		//获取帖子所有附件
 $did
 SELECT * FROM `{$TP}attachment`
@@ -10,8 +16,10 @@ SELECT * FROM `{$TP}attachment`
 $did
 $url
 $name
+$isupload
+$size
 INSERT INTO `{$TP}attachment`
-	(`did`,`url`,`name`)values($did,$url,$name)
+	(`did`,`url`,`name`,`size`,`isupload`)values($did,$url,$name,$size,$isupload)
 
 %removeAttachment	//删除附件记录
 $uid

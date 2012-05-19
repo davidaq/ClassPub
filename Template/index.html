@@ -19,10 +19,10 @@
 		<strong>创建一个课堂</strong>
 		<p>在这里，您也能以老师的身份创建您自己的课堂。创建完成后您就可以邀请其他用户成为这个课堂的学生。</p>
 		<p>每个用户只允许创建 <b>3</b> 个课堂。</p>
-		<form>
-			课程名称：<input type="" size="17"/><br/>
+		<form action="{:BASE_PATH}?a=other&m=addClass" method="post">
+			课程名称：<input type="text" size="17" name="name"/><br/>
 			课程介绍：<br/>
-			<textarea></textarea><br/>
+			<textarea name="description"></textarea><br/>
 			<button>创建</button>
 		</form>
 	</div>

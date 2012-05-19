@@ -83,11 +83,13 @@
 		$classTeach=$m->getTeach(array('uid'=>U::uid()));
 	?>
 	<script type="text/javascript">
+	var menuCid=0;
 	$(function(){
 		var $leftBarMenu=$('.leftBarItemMenu');
 		var $leftBarItems=$('.leftBar .item');
 		$leftBarMenu.mouseleave(function(){
 			$(this).hide();
+			menuCid=0;
 		});
 		var mxx,myy;
 		$leftBarItems.mousemove(function(e){
@@ -98,6 +100,7 @@
 		$leftBarItems.bind('contextmenu',function(){
 			$leftBarMenu.css({left:mxx-10+'px',top:myy-10+'px'});
 			$leftBarMenu.show();
+			menuCid=($(this).attr('id')+'').substr(3);
 			return false;
 		});
 	
@@ -109,6 +112,11 @@
 			$(this).animate({paddingLeft:0},300);			
 		});
 	});
+	function deleteClass(){
+		if(menuCid==0)
+			return;
+		document.location.href='{:BASE_PATH}?a=other&m=removeClass&cid='+menuCid;
+	}
 	</script>
 	<div class="leftBar">
 		<div class="userInfo tr">
@@ -118,7 +126,7 @@
 		<strong>我学的课</strong>
 		<div class="list" id="leftBarList">
 			{:loop($classLearn as $v)}
-				<div class="leftBarItem item{:$v['cid']==CID?' sel':''}">
+				<div class="leftBarItem item{:$v['cid']==CID?' sel':''}" id="cid{:$v['cid']}">
 					<a href="{:BASE_PATH}?a=discus&m=index&cid={:$v['cid']}">{:$v['name']}</a>
 				</div>
 			{:end}
@@ -128,7 +136,7 @@
 		<strong>我教的课</strong>
 		<div class="list" id="leftBarList">
 			{:loop($classTeach as $v)}
-				<div class="leftBarItem item{:$v['cid']==CID?' sel':''}">
+				<div class="leftBarItem item{:$v['cid']==CID?' sel':''}" id="cid{:$v['cid']}">
 					<a href="{:BASE_PATH}?a=discus&m=index&cid={:$v['cid']}">{:$v['name']}</a>
 				</div>
 			{:end}
@@ -140,7 +148,6 @@
 		</p>
 	</div>
 	<div class="leftBarItemMenu">
-		<a href="">删除</a>
-		<a href="">提前</a>
+		<a href="javascript:void(0);" onclick="deleteClass()">删除</a>
 	</div>
 {:end}
