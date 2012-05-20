@@ -2,15 +2,54 @@
 <html>
 <head>
 {:if(isset($url)&&$url)}
-	<meta http-equiv="refresh" content="3;url={:$url}"> 
+	<meta http-equiv="refresh" content="4;url={:$url}"> 
 {:end}
 <title>提示</title>
 <meta charset="UTF-8"/>
+<style type="text/css">
+body{
+	background:url(images/notice_bg.gif) repeat-x;
+	position:relative;
+}
+.messageBox{
+	width:auto;
+	background:#AAA;
+	padding:10px;
+	border:5px solid #999;
+	position:absolute;
+	display:none;
+	color:#223;
+	text-align:center;
+}
+.messageBox small{
+	padding-top:10px;
+	display:block;
+}
+.messageBox small a{
+	color:#446;
+	text-decoration:none;
+}
+.messageBox small a:hover{
+	text-decoration:underline;
+}
+</style>
+<script type="text/javascript" src="jq.js"></script>
+<script type="text/javascript">
+$(function(){
+	var w=$(window).width();
+	var h=$(window).height();
+	var $c=$('.messageBox');
+	$c.css({top:(h-$c.height())/3,left:(w-$c.width())/2-10});
+	$('.messageBox').fadeIn(500){:if(isset($url)&&$url)}.delay(3000).fadeOut(400){:end};
+});
+</script>
 </head>
 <body>
-{:$message}<br/>
+<div class="messageBox">
+	<strong>{:$message}<strong>
 {:if(isset($url)&&$url)}
-	3秒后自动跳转，如果没有请点击<a href="{:$url}">【这里】</a>
+	<small><a href="{:$url}">3秒后自动跳转，如果没有请点击这里</a></small>
 {:end}
+</div>
 </body>
 </html>

@@ -23,16 +23,16 @@
 			}
 			scrollDelay=setTimeout(function(){
 				$('.sendMessage').animate(
-					{top:$(window).scrollTop()+($(window).height()-$('.sendMessage').height())/2,
-					left:$(window).scrollLeft()+($(window).width()-$('.sendMessage').width())/2}
+					{top:$(window).scrollTop()+($(window).height()-$('.sendMessage').height())/5,
+					left:$(window).scrollLeft()+($('.body').width()-$('.sendMessage').width())/2}
 					,300);
 				scrollDelay=0;
 			},150);
 		}
 		$(window).scroll(moveMessageBox);
 		$(window).resize(moveMessageBox);
-		$('.sendMessage').css({top:$(window).scrollTop()+($(window).height()-$('.sendMessage').height())/2,
-					left:$(window).scrollLeft()+($(window).width()-$('.sendMessage').width())/2});
+		$('.sendMessage').css({top:$(window).scrollTop()+($(window).height()-$('.sendMessage').height())/5,
+					left:$(window).scrollLeft()+($('.body').width()-$('.sendMessage').width())/2});
 	});
 	function sayTo(uid,item){
 		$('#sendMessageDlg').show(200);

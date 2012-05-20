@@ -88,25 +88,33 @@ $(function(){
 				},function(){
 					$(this).css({backgroundPositionX:'-358px'});					
 				});
+				if($('#keyword').val()!=''){
+					$('#keywordLabel').hide();
+				}
 			});
-			/*
 			var searchFoucsed=false;
 			function searchFocus(item){
 				if(!searchFoucsed){
 					item.select();
 					searchFoucsed=true;
+					$('#keywordLabel').stop(true,true);
+					$('#keywordLabel').fadeOut(300);
 				}
 			}
 			function searchBlur(item){
 				searchFoucsed=false;
-				if($(item).val()=='')
-					$(item).val('搜索关键词');
-			}*/
+				if($(item).val()==''){
+					$('#keywordLabel').stop(true,true);
+					$('#keywordLabel').fadeIn(300);
+				}
+			}
 		</script>
 		<form action="{:BASE_PATH}" method="get">
 			<input type="hidden" name="a" value="other"/>
 			<input type="hidden" name="m" value="search"/>
-			<input type="text" name="keyword" value="{:KEYWORD}" onmouseup="searchFocus(this)" onblur="searchBlur(this)" style="width:150px"/><button id="searchButton"></button>
+			<span style="position:relative">
+			<label id="keywordLabel" for="keyword" style="position:absolute;left:7px;top:2px;color:#EEE;font-size:12px"><i>搜索帖子/课堂</i></label>
+			<input type="text" id="keyword" name="keyword" value="{:KEYWORD}" onmouseup="searchFocus(this)" onfocus="searchFocus(this)" onblur="searchBlur(this)" style="width:150px"/></span><button id="searchButton"></button>
 		</form>
 	</div>
 </div>
