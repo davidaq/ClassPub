@@ -37,16 +37,11 @@ function index(&$V){
 		$cids=array(CID);
 	}
 		
-		
-	$m=new Model('discus');
+	if($cids){
+		$m=new Model('discus');
 
-	$r=$m->topicCount(array('cid'=>$cids,'uid'=>U::uid()));
-	$totalCount=$r[0]['num'];
-	$V->set('topicCount',$totalCount);
-
-	$arg['cid']=$cids;
-	$arg['countPerPage']=20;
-	$arg['start']=(PAGE-1)*$arg['countPerPage'];
+		$totalCount=val($m->topicCount(array('cid'=>$cids,'uid'=>U::uid())));
+	}
 	if(isset($_GET['type'])){
 		$arg['type']=array(htmlspecialchars($_GET['type']));
 		$V->set('ttype',$arg['type'][0]);
@@ -54,37 +49,48 @@ function index(&$V){
 		$arg['type']=array('normal','homework','attachment');
 		$V->set('ttype','all');
 	}
-	$r=$m->listTopics($arg);
-	$V->set('topicList',$r);
-	
-	$V->set('pager',pager($totalCount,$arg['countPerPage'],PAGE));
+	if(isset($totalCount)&&$totalCount){
+		$V->set('topicCount',$totalCount);
 
-	$dids=array();
-	foreach($r as $f){
-		$dids[]=$f['did'];
-	}
+		$arg['cid']=$cids;
+		$arg['countPerPage']=20;
+		$arg['start']=(PAGE-1)*$arg['countPerPage'];
+		$r=$m->listTopics($arg);
+		$V->set('topicList',$r);
 	
-	$replys=array();
-	if($dids){
-		unset($arg);
-		$arg['dids']=$dids;
-		$r=$m->replyCount($arg);
-		$authors=array();
+		$V->set('pager',pager($totalCount,$arg['countPerPage'],PAGE));
+
+		$dids=array();
 		foreach($r as $f){
-			$replys[$f['reply']]['count']=$f['num'];
-			$replys[$f['reply']]['last']=$f['last'];
-			$authors[$f['last']]=1;
+			$dids[]=$f['did'];
 		}
-		if($authors){
-			$arg['dids']=array_keys($authors);
-			$r=$m->authors($arg);
+	
+		$replys=array();
+		if($dids){
+			unset($arg);
+			$arg['dids']=$dids;
+			$r=$m->replyCount($arg);
+			$authors=array();
 			foreach($r as $f){
-				$authors[$f['did']]=$f['name'];
+				$replys[$f['reply']]['count']=$f['num'];
+				$replys[$f['reply']]['last']=$f['last'];
+				$authors[$f['last']]=1;
 			}
-			$V->set('replyer',$authors);
+			if($authors){
+				$arg['dids']=array_keys($authors);
+				$r=$m->authors($arg);
+				foreach($r as $f){
+					$authors[$f['did']]=$f['name'];
+				}
+				$V->set('replyer',$authors);
+			}
 		}
+		$V->set('replys',$replys);
+	}else{
+		$V->set('topicCount',0);
+		$V->set('topicList',array());
+		$V->set('pager',pager(1,1,1));
 	}
-	$V->set('replys',$replys);
 }
 function post(&$V){
 	$topic=htmlspecialchars(trim($_POST['topic']));

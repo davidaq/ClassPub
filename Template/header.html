@@ -89,6 +89,7 @@ $(function(){
 					$(this).css({backgroundPositionX:'-358px'});					
 				});
 			});
+			/*
 			var searchFoucsed=false;
 			function searchFocus(item){
 				if(!searchFoucsed){
@@ -100,12 +101,12 @@ $(function(){
 				searchFoucsed=false;
 				if($(item).val()=='')
 					$(item).val('搜索关键词');
-			}
+			}*/
 		</script>
 		<form action="{:BASE_PATH}" method="get">
 			<input type="hidden" name="a" value="other"/>
 			<input type="hidden" name="m" value="search"/>
-			<input type="text" name="keyword" value="{:KEYWORD?KEYWORD:'搜索关键词'}" onmouseup="searchFocus(this)" onblur="searchBlur(this)" style="width:150px"/><button id="searchButton"></button>
+			<input type="text" name="keyword" value="{:KEYWORD}" onmouseup="searchFocus(this)" onblur="searchBlur(this)" style="width:150px"/><button id="searchButton"></button>
 		</form>
 	</div>
 </div>

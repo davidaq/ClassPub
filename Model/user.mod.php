@@ -17,6 +17,11 @@ $email
 SELECT `uid`,`name`,`password` FROM `{$TP}user`
 	WHERE `email`=$email
 	
+%getDefaultPage
+$uid
+SELECT `defaultpage` FROM `{$TP}profile`
+	WHERE `uid`=$uid
+	
 %setPassword		//设置密码
 $uid
 $oldpassword
@@ -26,11 +31,12 @@ SET `password`=$newpassword
 WHERE `uid`=$uid AND `password`=$oldpassword
 
 %createUser		//创建用户
+$name
 $email
 $password
 INSERT  INTO user
-	(`email`,`password`)
-	VALUES ($email,$password)
+	(`name`,`email`,`password`)
+	VALUES ($name,$email,$password)
 
 %setOptions		//偏好设置
 $uid

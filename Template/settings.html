@@ -37,6 +37,7 @@ $(function(){
 				<input type="radio" value="message" id="logGoMessage" name="logGo"{:$cfg['defaultpage']=='message'?'checked':''}/><label for="logGoMessage">站内信息</label>			
 			</td>
 		</tr>
+		<!--
 		<tr>
 			<td>默认选择课程</td>
 			<td>
@@ -48,7 +49,9 @@ $(function(){
 				</select>
 			</td>
 		</tr>
+		-->
 	</table>
+	<input type="hidden" name="class" value="0"/>
 </form>
 <div class="segTitle">个人资料<button onclick="$('#details').submit()">保存</button></div>
 

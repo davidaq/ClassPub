@@ -36,10 +36,19 @@ function removeClass(&$V){
 
 function search(&$V){
 	if(isset($_GET['keyword'])){
-		$key=preg_split('/\s+/',preg_quote(htmlspecialchars($_GET['keyword']),'/'));
+		$key=trim($_GET['keyword']);
+		if(!$key){
+			$V=new View('notice');
+			$V->set('url',$_SERVER['HTTP_REFERER']);
+			$V->set('message','搜索内容不得为空');
+			return;
+		}
+		$key=preg_split('/\s+/',preg_quote(htmlspecialchars($key),'/'));
 		$key=implode('|',$key);
-		if(is_numeric($key))
-			$key="[^0-9]{$key}[^0-9]|[^0-9]{$key}$|^{$key}[^0-9]";
+		$V->set('pkey',$key);
+		if(is_numeric($key)){
+			$key="[^0-9]({$key})[^0-9]|[^0-9]({$key})$|^({$key})[^0-9]";
+		}
 		$m=new Model('class');
 		$classes=array();
 		foreach($m->getLearn(array('uid'=>U::uid())) as $f){
@@ -53,7 +62,6 @@ function search(&$V){
 		$V->set('classes',$m->searchClass($arg));
 		$arg['cid']=$classes;
 		$V->set('posts',$m->searchPosts($arg));
-		$V->set('pkey',$key);
 	}
 }
 function apply(&$V){

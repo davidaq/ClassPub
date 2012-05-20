@@ -18,4 +18,5 @@ SELECT d.`time`,d.`title`,left(d.`content`,100) `text`,d.`did`,d.`cid`,d.`did`,u
 	WHERE `cid` IN $cid AND
 		(d.`title` rlike $key
 		OR d.`content` rlike $key)
-	ORDER BY d.`time`
+	ORDER BY d.`time` DESC
+	LIMIT 30
