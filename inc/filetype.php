@@ -10,5 +10,4 @@ function is_image($filename){
 	$fileType = '';
 	$img=array(255216,7173,6677,13780); 
 	return in_array($typeCode,$img);
-} 
-?>	
+}

@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 $_CONFIG['DBNAME']='classpub';
 require_once('AQFrameWork/AQFrameWork.php');

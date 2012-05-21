@@ -93,12 +93,12 @@ function download(&$V){
 		$m=new Model('attachment');
 		$r=val($m->getBasic(array('atid'=>ceil($_GET['atid']))));
 		if($r['isupload']){
+			ob_clean();
 			header('Content-Description: File Transfer');
 			header('Content-Type:Application/Unknow');
 			header('Content-Transfer-Encoding: binary');
 			header('Content-Length:'.filesize($r['url']));
 			header('Content-Disposition: attachment; filename="'.$r['name'].'"');
-			ob_clean();
 			flush();
 			readfile($r['url']);
 			die();
