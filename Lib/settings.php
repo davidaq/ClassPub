@@ -1,4 +1,5 @@
 <?php
+isset($_CONFIG)||die();
 
 function index(&$V){
 	$m=new Model('user');
